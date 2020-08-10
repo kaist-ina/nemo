@@ -1,6 +1,6 @@
 # MobiCom 2020, Paper #382
 
-### This is an anonymized Github repository for the submitted paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices".
+### This is an official Github repository for the submitted paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices".
 
 
 ### 1. DNN Specifications (cited in Section 5.3, "Providing multiple options")
