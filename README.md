@@ -2,6 +2,7 @@
 
 ### This is an official Github repository for the submitted paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices".
 
+### Source code will be available at 10.05 (Mon) (currently, under refactoring)
 
 ### 1. DNN Specifications (cited in Section 5.3, "Providing multiple options")
 
