@@ -72,7 +72,9 @@ This contains several figures that clearly show the benefit of NEMO.
 
 ## Tips: Extend libvpx (TBU: 11.15, Sun)
 
-## Tips: Extend Exoplayer (TBU: 11.15, Sun)
+## Tips: Extend Exoplayer (TBU: 11.22, Sun)
+
+## Tips: Support Other Platforms (TBU: 11.22, Sun)
 
 ## License
 
