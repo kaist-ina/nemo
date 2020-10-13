@@ -1,95 +1,79 @@
-# MobiCom 2020, Paper #382
+# NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices
 
-### This is an official Github repository for the submitted paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices".
+This is an official Github repository for the MobiCom paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices". This project is built upon Google libvpx, Android Exoplayer, and Qualcomm SNPE and consists of C/C++/Java/Python.
+[[Project homepage]](http://ina.kaist.ac.kr/~nemo/) [[Paper]](https://dl.acm.org/doi/10.1145/3372224.3419185) [[Video]](https://www.youtube.com/watch?v=GPHlAUYCk18&ab_channel=ACMSIGMOBILEONLINE)
 
-### Source code will be available at 10.16 (Fri) (currently, under refactoring)
+**Notice (10.13): We’re refactoring our code for public usage, refer to the timeline below.**
 
-### 1. DNN Specifications (cited in Section 5.3, "Providing multiple options")
+## Prerequisites
 
-NEMO uses multiple quality DNNs (Low, Medium, High) whose architecture is described in the below figure.
+Since Qualcomm SNPE v1.4.0 supports only legacy Tensorflow (<=1.14) and Python (3.5.0), two different environments must be set up for NEMO. We recommend using Anaconda to build separate virtual Python environments.
 
-Each residual block consists of two convolution layer, one ReLU layer, and one element-wise summation layer (e.g., Conv-ReLU-Conv-Sum)
+`Environment 1`   
+Python 3.5    
+Tensorflow 1.14 (CPU) - Just for converting Tensorflow models to SNPE ones   
+imageio   
 
-<img src="https://user-images.githubusercontent.com/62630456/77510739-cb2a4300-6eb2-11ea-8ae0-2795939b4c8f.png" width="90%"></img>
+`Environment 2`   
+Python 3.6   
+Tensorflow 1.15    
+imageio   
 
-The below table specifies the numbers of residual blocks and the number of channels of convolution layers for each quality DNN.
+We’ve implemented/tested NEMO using the following servers and mobile devices.
 
-|  Resolution   | Quality | Number of residual blocks | Number of channels |
-|:-------------:|:-------------:|:-------------:|:-----:|
-| 240p      | Low      | 4 | 9 |
-| 240p      | Medium      | 8 | 21 |
-| 240p      | High      | 8 | 32 |
-| 360p      | Low      | 4 | 8 |
-| 360p      | Medium      | 4 | 18 |
-| 360p      | High      | 4 | 29 |
-| 480p      | Low      | 4 | 4 |
-| 480p      | Medium      | 4 | 9 |
-| 480p      | High      | 4 | 18 |
+`Servers`   
+OS: Ubuntu 16.04   
+CPU: Intel Xeon E5-2620 v4   
+RAM: 32G   
+GPU: 2080Ti    
 
-### 2. DNN quality to Device Mapping (cited in Section 7, "Baseline")
+`Mobile devices`: Currently, we only support Android devices with Qualcomm processors   
+Samsung Galaxy S10+: Snapdragon 855   
+Samsung Galaxy S6 Task: Snapdragon 855   
+Samsung Galaxy Note8: Snapdragon 835   
+Samsung A70: Snapdragon 675   
+Xiaomi Mi9: Snapdragon 855   
+Xiaomi Redmi Note7: Snapdragon 660   
+LG GPad5: Snapdragon 821   
 
-NEMO selects different quality DNNs depending on videos and devices (refer Section 5.3, "Adapting to Devices and Contents").
+## Setup (TBU:10.18 Sun)
 
-The below table desribes the mapping from DNN qualities to our local mobile devices including Xiaomi Redmi Note 7 (Entry-level), Xiaomi Mi9 (High-end), and LG Gpad5 (Tablet).
+## Directory Structures
 
-#### a. 240p to 1080p
+### `nemo`
 
-|  Content  | Xiaomi Redmi Note7 | Xiaomi Mi9 | LG Gpad 5 |
-|:-------------:|:-------------:|:-------------:|:-----:|
-| product_review | Low, Low, Low | High, High, High | Low, Low, Low |
-| how_to | Low, Low, Low | High, High, High | Low, Low, Low |
-| vlogs | Low, Low, Low | Medium, High, Medium | Low, Low, Low |
-| game_play | Low, Low, Low | Medium, High, Medium | Low, Low, Low |
-| skit | Low, Low, Low | Medium, Medium, High | Low, Low, Low |
-| haul | Low, Low, Low | Medium, High, High | Low, Low, Low |
-| challenge | Low, Low, Low | High, High, High | Low, Low, Low |
-| favorite | Low, Low, Low | Medium, High, High | Low, Low, Medium |
-| education | Low, Low, Low | High, Medium, High | Medium, Low, Low |
-| unboxing | Low, Low, Low | High, High, High | Low, Low, Low |
+This contains the source code of NEMO.
 
-#### b. 360p to 1080p
+### `paper`
 
-|  Content  | Xiaomi Redmi Note7 | Xiaomi Mi9 | LG Gpad 5 | 
-|:-------------:|:-------------:|:-------------:|:-----:|
-| product_review | Low, Low, Low | Medium, Medium, Medium | Low, Low, Low |
-| how_to | Low, Low, Low | Medium, Medium, Medium | Low, Low, Low |
-| vlogs | Low, Low, Low | Low, High, Low | Low, Medium, Low |
-| game_play | Low, Low, Low | Low, Low, Low | Low, Low, Low |
-| skit | Low, Low, Low | Low, Medium, Medium | Low, Low, Low |
-| haul | Low, Low, Low | Low, Medium, Medium | Low, Low, Low |
-| challenge | Low, Low, Low | Medium, Medium, Medium | Low, Low, Low |
-| favorite | Low, Low, Low | Low, Medium, Medium | Low, Low, Low |
-| education | Low, Low, Low | High, Low, Medium | Low, Low, Low |
-| unboxing | Low, Low, Low | Medium, Medium, Medium | Low, Low, Low |
-#### c. 480p to 1080p
+This contains additional material of the paper.
 
-|  Content  | Xiaomi Redmi Note7 | Xiaomi Mi9 | LG Gpad 5 | 
-|:-------------:|:-------------:|:-------------:|:-----:|
-| product_review | Low, Low, Medium | Medium, Medium, High | Low, Low, Medium |
-| how_to | Low, Low, Low | Medium, Medium, Medium | Medium, Low, Low |
-| vlogs | Low, Low, Low | Medium, High, Medium | Low, Medium, Low |
-| game_play | Low, Low, Low | Medium, Medium, Medium | Low, Low, Low |
-| skit | Low, Low, Low | Medium, Medium, Medium | Low, Low, Low |
-| haul | Low, Low, Low | Medium, Medium, Medium | Low, Low, Low |
-| challenge | Low, Low, Low | High, High, High | Low, Medium, Medium |
-| favorite | Low, Low, Low | Medium, High, High | Low, Medium, Low |
-| education | Low, Low, Low | High, Medium, High | Low, Low, Medium |
-| unboxing | Low, Low, Low | Medium, Medium, Medium | Low, Low, Low |
+### `dataset`
 
-### 3. Dataset (Video, Network traces)
+This contains a dataset used in the paper including network traces and Youtube videos.
 
-NEMO uses two types of datasets: 1) Video to train super-resolution DNNs, 2) Network traces to test adaptive streaming.
-We provide them at `dataset`.
+### `demo`
 
-### 4. Demo videos
+This contains several photos that clearly show the benefit of NEMO.
 
-NEMO significantly improves video quality by super-resolution. 
+## Step 1: Set up environment (TBU:10.18 Sun)
 
-To demonstrate this, we provide three sample videos at `demo`.
+## Step 2: Prepare video dataset (TBU:10.18 Sun)
+ 
+## Step 3: Train/Validate a super-resolution DNN (TBU:10.25 Sun)
 
-### 5. Experiment setting for power measurement
+## Step 4: Generate a cache profile (TBU:10.11.01 Sun)
 
-A recent smartphone is equipped an integrated battery.
-Thus, we dissebled a smartphone and replaced its battery with the Monsoon power monitor as below image.
+## Step 5: Execute on Android (TBU: 11.08, Sun)
 
-<img src="https://user-images.githubusercontent.com/62630456/89301846-15af9d80-d6a5-11ea-88cd-50b993a7d844.jpg" width="90%"></img>
+## Limitations (TBU: 11.15, Sun)
+
+## Tips: Extend libvpx (TBU: 11.15, Sun)
+
+## Tips: Extend Exoplayer (TBU: 11.15, Sun)
+
+## License
+
+* `BY-NC-SA` – [Attribution-NonCommercial-ShareAlike](https://github.com/idleberg/Creative-Commons-Markdown/blob/master/4.0/by-nc-sa.markdown)
+
+NEMO is currently protected under the patent and is retricted to be used for the commercial usage.
