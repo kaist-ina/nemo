@@ -9,27 +9,27 @@ This is an official Github repository for the MobiCom paper "NEMO: Enabling Neur
 
 Since Qualcomm SNPE v1.4.0 supports only legacy Tensorflow (<=1.14) and Python (3.5.0), two different environments must be set up for NEMO. We recommend using Anaconda to build separate virtual Python environments.
 
-`Environment 1`   
+### `Environment 1`   
 Python 3.5    
 Tensorflow 1.14 (CPU) - Just for converting Tensorflow models to SNPE ones   
 imageio   
 
-`Environment 2`   
+### `Environment 2`   
 Python 3.6   
 Tensorflow 1.15    
 imageio   
 
 ## Tested Environment
 
-We’ve implemented/tested NEMO using the following servers and mobile devices.
+We’ve implemented/tested NEMO using the following server and mobile devices.
 
-`Servers`   
+### `Server`   
 OS: Ubuntu 16.04   
 CPU: Intel Xeon E5-2620 v4   
 RAM: 32G   
 GPU: 2080Ti    
 
-`Mobile devices`: Currently, we only support Android devices with Qualcomm processors   
+### `Mobile devices`: Currently, we only support Android devices with Qualcomm processors   
 Samsung Galaxy S10+: Snapdragon 855   
 Samsung Galaxy S6 Task: Snapdragon 855   
 Samsung Galaxy Note8: Snapdragon 835   
