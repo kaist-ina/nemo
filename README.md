@@ -19,6 +19,8 @@ Python 3.6
 Tensorflow 1.15    
 imageio   
 
+## Tested Environment
+
 We’ve implemented/tested NEMO using the following servers and mobile devices.
 
 `Servers`   
@@ -54,7 +56,7 @@ This contains a dataset used in the paper including network traces and Youtube v
 
 ### `demo`
 
-This contains several photos that clearly show the benefit of NEMO.
+This contains several figures that clearly show the benefit of NEMO.
 
 ## Step 1: Set up environment (TBU:10.18 Sun)
 
