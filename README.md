@@ -56,9 +56,9 @@ This contains a dataset used in the paper including network traces and Youtube v
 
 This contains several figures that clearly show the benefit of NEMO.
 
-## Step 1: Set up environment (TBU:10.18 Sun)
+## Step 1: Set up environment (TBU:10.25 Sun)
 
-## Step 2: Prepare video dataset (TBU:10.18 Sun)
+## Step 2: Prepare video dataset (TBU:10.25 Sun)
  
 ## Step 3: Train/Validate a super-resolution DNN (TBU:10.25 Sun)
 
