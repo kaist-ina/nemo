@@ -61,12 +61,12 @@ conda deactivate
 
 * Download a Youtube video
 ```
-$NEMO_CODE_ROOT/nemo/video/script/downloader.sh -c product_review
+$NEMO_CODE_ROOT/nemo/video/script/download_video.sh -c product_review
 ```
 
 * Encode the video 
 ```
-$NEMO_CODE_ROOT/nemo/video/script/encoder.sh -c product_review
+$NEMO_CODE_ROOT/nemo/video/script/encode_video.sh -c product_review
 ```
 [Details are described in this file.](nemo/tool/README.md)
 
