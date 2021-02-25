@@ -1,33 +1,59 @@
-# NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices
+# NEMO (MobiCom'20)
 
 This is an official Github repository for the MobiCom paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices". This project is built upon Google libvpx, Android Exoplayer, and Qualcomm SNPE and consists of C/C++/Java/Python.   
 [[Project homepage]](http://ina.kaist.ac.kr/~nemo/) [[Paper]](https://dl.acm.org/doi/10.1145/3372224.3419185) [[Video]](https://www.youtube.com/watch?v=GPHlAUYCk18&ab_channel=ACMSIGMOBILEONLINE)
 
-### Notice (10.13): We’re refactoring our code for public usage, refer to the timeline below.
+## Project structure
+```
+./nemo
+├── video                  # Python: Video downloader/encoder
+├── dnn                    # Python: DNN trainer/converter
+├── codec                  # c/c++: SR-integrated codec built upon libvpx
+├── cache_profile          # Python: Cache profile generator
+├── player                 # Java, c/c++: Android video player built upon Exoplayer and the SR-integrated codec
+```
 
 ## Prerequisites
 
-Since Qualcomm SNPE v1.4.0 supports only legacy Tensorflow (<=1.14) and Python (3.5.0), two different environments must be set up for NEMO. We recommend using Anaconda to build separate virtual Python environments.
+* OS: Ubuntu 16.04 or higher versions
+* HW: NVIDIA GPU
+* Docker: https://docs.docker.com/install/
+* NVIDIA docker: https://github.com/NVIDIA/nvidia-docker
 
-### `Environment 1`   
-* Python 3.5    
-* Tensorflow 1.14 (CPU) - Just for converting Tensorflow models to SNPE ones   
-* imageio   
+## Guide
+We provide a step-by-step guide with a single video (which content is product review).  
+All the folloiwing commands must be executed inside the docker. 
 
-### `Environment 2`   
-* Python 3.6   
-* Tensorflow 1.15    
-* imageio   
+## 1. Setup
 
-## Tested Environment
+* Build a docker image (based on the Tensorflow Docker)
+```
+mkdir ${HOME}/nemo-docker && cd ${HOME}/docker
+wget https://gist.githubusercontent.com/chaos5958/81267beccd06a38c83e661db6f1c3f34/raw/000baf071e418d0c7ddd9edbd137fa4fa9503279/Dockerfile
+sudo docker build -t nemo .
+```
+* Run a docker image 
+```
+wget https://gist.githubusercontent.com/chaos5958/1be24ddcd3c15a5fc2015d15e8c44ad4/raw/141ecaa1d54eff0e3bdc04206aa3304cae2c604c/run_nemo_docker.sh
+sudo ./run_nemo_docker.sh
+```
 
-We’ve implemented/tested NEMO using the following server and mobile devices.
+## 2. Download/Encode a video
 
-### `Server`   
-* OS: Ubuntu 16.04   
-* CPU: Intel Xeon E5-2620 v4   
-* RAM: 32G   
-* GPU: NVIDIA RTX 2080Ti    
+* Download a Youtube video
+```
+$NEMO_CODE_ROOT/nemo/video/script/downloader.sh -c product_review
+```
+
+* Encode the video 
+```
+$NEMO_CODE_ROOT/nemo/video/script/encoder.sh -c product_review
+```
+
+[Details are described in this file.](nemo/video/README.md)
+
+
+
 
 ### `Mobile devices`: Currently, we only support Android devices with Qualcomm processors   
 * Samsung Galaxy S10+: Snapdragon 855   
