@@ -10,6 +10,10 @@ This is an official Github repository for the MobiCom paper "NEMO: Enabling Neur
 * Docker: https://docs.docker.com/install/
 * NVIDIA docker: https://github.com/NVIDIA/nvidia-docker
 
+## Guide
+We provide a step-by-step guide with a single video (which content is product review).
+All the folloiwing commands must be executed inside the docker. 
+
 ## 1. Setup
 
 * Build a docker image (based on the Tensorflow Docker)
@@ -26,7 +30,17 @@ sudo ./run_nemo_docker.sh
 
 ## 2. Download/Encode a video
 
-[Refer this file](nemo/video/README.md)
+* Download a Youtube video
+```
+$NEMO_CODE_ROOT/nemo/video/script/downloader.sh -c product_review
+```
+
+* Encode the video 
+```
+$NEMO_CODE_ROOT/nemo/video/script/encoder.sh -c product_review
+```
+
+[Details are described in this file.](nemo/video/README.md)
 
 
 
