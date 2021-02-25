@@ -12,4 +12,4 @@ $  $NEMO_CODE_ROOT/nemo/video/script/downloader.sh -c [content name]
 ```
 $  $NEMO_CODE_ROOT/nemovideo/script/encoder.sh -c [content name]
 ```
-* The encoded videos (240-1080p) are stored at `$NEMO_DATA_ROOT/video`
+* The encoded videos (240-1080p) are stored at `$NEMO_DATA_ROOT/[content name]/video`
