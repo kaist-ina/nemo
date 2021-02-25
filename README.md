@@ -3,6 +3,16 @@
 This is an official Github repository for the MobiCom paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices". This project is built upon Google libvpx, Android Exoplayer, and Qualcomm SNPE and consists of C/C++/Java/Python.   
 [[Project homepage]](http://ina.kaist.ac.kr/~nemo/) [[Paper]](https://dl.acm.org/doi/10.1145/3372224.3419185) [[Video]](https://www.youtube.com/watch?v=GPHlAUYCk18&ab_channel=ACMSIGMOBILEONLINE)
 
+## Project structure
+```
+./nemo
+├── video                  # Python: Video downloader/encoder
+├── dnn                    # Python: DNN trainer/converter
+├── codec                  # c/c++: SR-integrated codec built upon libvpx
+├── cache_profile          # Python: Cache profile generator
+├── player                 # Java, c/c++: Android video player built upon Exoplayer and the SR-integrated codec
+```
+
 ## Prerequisites
 
 * OS: Ubuntu 16.04 or higher versions
