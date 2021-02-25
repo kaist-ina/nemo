@@ -50,8 +50,21 @@ $NEMO_CODE_ROOT/nemo/video/script/downloader.sh -c product_review
 $NEMO_CODE_ROOT/nemo/video/script/encoder.sh -c product_review
 ```
 
-[Details are described in this file.](nemo/video/README.md)
+[Details are described in this file.](nemo/tool/README.md)
 
+## 3. Train a DNN, and convert the TF model to the dlc
+
+* Train a DNN
+```
+$NEMO_CODE_ROOT/nemo/dnn/script/train_video.sh -g 0 -c product_review -q high -i 240 -o 1080
+```
+
+* Convert the TF model to the dlc
+```
+$NEMO_CODE_ROOT/nemo/dnn/script/test_video.sh -g 0 -c product_review -q high -i 240 -o 1080
+```
+
+[Details are described in this file.](nemo/dnn/README.md)
 
 
 
