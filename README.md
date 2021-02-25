@@ -20,9 +20,9 @@ If you use our work for research, please cite it.
 ./nemo
 ├── video                  # Python: Video downloader/encoder
 ├── dnn                    # Python: DNN trainer/converter
-├── codec                  # c/c++: SR-integrated codec built upon libvpx
+├── codec                  # C/C++: SR-integrated codec built upon libvpx
 ├── cache_profile          # Python: Cache profile generator
-├── player                 # Java, c/c++: Android video player built upon Exoplayer and the SR-integrated codec
+├── player                 # Java, C/C++: Android video player built upon Exoplayer and the SR-integrated codec
 ```
 
 ## Prerequisites
