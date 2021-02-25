@@ -13,7 +13,8 @@ If you use our work for research, please cite it.
   year={2020}
 }
 ```
-
+Lastly, NEMO is currently protected under the patent and is retricted to be used for the commercial usage.  
+* `BY-NC-SA` – [Attribution-NonCommercial-ShareAlike](https://github.com/idleberg/Creative-Commons-Markdown/blob/master/4.0/by-nc-sa.markdown)
 
 ## Project structure
 ```
@@ -90,8 +91,4 @@ $NEMO_CODE_ROOT/nemo/dnn/script/test_video.sh -g 0 -c product_review -q high -i 
 
 ### 7. Play NEMO in Android smartphones (TBU)
 
-## License
-
-* `BY-NC-SA` – [Attribution-NonCommercial-ShareAlike](https://github.com/idleberg/Creative-Commons-Markdown/blob/master/4.0/by-nc-sa.markdown)
-
-NEMO is currently protected under the patent and is retricted to be used for the commercial usage.
+## FAQ (TBU)
