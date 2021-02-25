@@ -1,8 +1,59 @@
-import argparse
 import os
 import subprocess
+import shlex
+import json
 
-from nemo.video.utility import profile_video
+def get_video_url(content):
+    url = None
+    if content == 'product_review': #keywork: product_review
+        url = "https://www.youtube.com/watch?v=YhysZu9jOt0"
+    elif content == 'how_to': #keyword: how-to
+        url = "https://www.youtube.com/watch?v=2ecqslqwXLQ"
+    elif content == 'vlogs':
+        url = "https://www.youtube.com/watch?v=eCz-IixxR_k"
+    elif content == 'skit':
+        url = "https://www.youtube.com/watch?v=V0f3IXzc530"
+    elif content == 'game_play': #keyword: gameplay
+        url = "https://www.youtube.com/watch?v=_56DGiboFF8"
+    elif content == 'haul':
+        url = "https://www.youtube.com/watch?v=PMfGJGmokqE"
+    elif content == 'challenge':
+        url = "https://www.youtube.com/watch?v=ZCg9xHNPR3k"
+    elif content == 'education': #keyword: education
+        url = "https://www.youtube.com/watch?v=0eaf6bUMd4U"
+    elif content == 'favorite':
+        url = "https://www.youtube.com/watch?v=9ALj1JxO7e0"
+    elif content == 'unboxing':
+        url = "https://www.youtube.com/watch?v=l0DoQYGZt8M"
+    return url
+
+def get_video_profile(video_path):
+    assert(os.path.exists(video_path))
+
+    cmd = "ffprobe -v quiet -print_format json -show_streams -show_entries format"
+    args = shlex.split(cmd)
+    args.append(video_path)
+
+    # run the ffprobe process, decode stdout into utf-8 & convert to JSON
+    ffprobeOutput = subprocess.check_output(args).decode('utf-8')
+    ffprobeOutput = json.loads(ffprobeOutput)
+
+    #height, width
+    height = ffprobeOutput['streams'][0]['height']
+    width = ffprobeOutput['streams'][0]['width']
+    duration = float(ffprobeOutput['format']['duration'])
+
+    #fps
+    fps_line = ffprobeOutput['streams'][0]['avg_frame_rate']
+    frame_rate = float(fps_line.split('/')[0]) / float(fps_line.split('/')[1])
+
+    result = {}
+    result['height'] = height
+    result['width'] = width
+    result['frame_rate'] = frame_rate
+    result['duration'] = duration
+
+    return result
 
 class LibvpxEncoder():
     def __init__(self, output_video_dir, input_video_path, input_height, start, duration, ffmpeg_path):
@@ -69,7 +120,7 @@ class LibvpxEncoder():
             self.input_video_path, self._threads(self.input_height), cut_opt, int_video_path)
         os.system(cmd)
 
-        height = profile_video(int_video_path)['height']
+        height = get_video_profile(int_video_path)['height']
         output_video_name = '{}p_{}kbps{}.webm'.format(height, bitrate, self._name(self.start, self.duration))
         output_video_path = os.path.join(self.output_video_dir, output_video_name)
         target_bitrate = '{}k'.format(bitrate)
@@ -110,37 +161,3 @@ class LibvpxEncoder():
 
         passlog_path = os.path.join('./', '{}-0.log'.format(passlog_name))
         os.remove(passlog_path)
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-
-    #path
-    parser.add_argument('--ffmpeg_path', type=str, default='/usr/bin/ffmpeg')
-    parser.add_argument('--input_video_path', type=str, required=True)
-    parser.add_argument('--output_video_dir', type=str, required=True)
-
-    #video
-    parser.add_argument('--mode', type=str, required=True)
-    parser.add_argument('--bitrate', type=int, default=None)
-    parser.add_argument('--output_width', type=int, default=None)
-    parser.add_argument('--output_height', type=int, default=None)
-    parser.add_argument('--gop', type=int, default=120)
-    parser.add_argument('--start', type=int, default=None)
-    parser.add_argument('--duration', type=int, default=None)
-
-    args = parser.parse_args()
-
-    print(args.input_video_path)
-    input_video_height = profile_video(args.input_video_path)['height']
-
-    if args.mode == 'cut_and_resize_and_encode':
-        assert(args.start is not None and args.duration is not None)
-        enc = LibvpxEncoder(args.output_video_dir, args.input_video_path, input_video_height, args.start, args.duration, args.ffmpeg_path)
-        enc.cut_and_resize_and_encode(args.output_width, args.output_height, args.bitrate, args.gop)
-    elif args.mode == 'resize_and_encode':
-        assert(args.bitrate is not None and args.output_height is not None and args.output_width is not None)
-        enc = LibvpxEncoder(args.output_video_dir, args.input_video_path, input_video_height, args.start,
-                            args.duration, args.ffmpeg_path)
-        enc.resize_and_encode(args.output_width, args.output_height, args.bitrate, args.gop)
-    else:
-        raise ValueError('Unsupported mode')
