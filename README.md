@@ -3,6 +3,18 @@
 This is an official Github repository for the MobiCom paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices". This project is built upon Google libvpx, Android Exoplayer, and Qualcomm SNPE and consists of C/C++/Java/Python.   
 [[Project homepage]](http://ina.kaist.ac.kr/~nemo/) [[Paper]](https://dl.acm.org/doi/10.1145/3372224.3419185) [[Video]](https://www.youtube.com/watch?v=GPHlAUYCk18&ab_channel=ACMSIGMOBILEONLINE)
 
+If you use our work for research, please cite it.
+```
+@inproceedings{yeo2020nemo,
+  title={NEMO: enabling neural-enhanced video streaming on commodity mobile devices},
+  author={Yeo, Hyunho and Chong, Chan Ju and Jung, Youngmok and Ye, Juncheol and Han, Dongsu},
+  booktitle={Proceedings of the 26th Annual International Conference on Mobile Computing and Networking},
+  pages={1--14},
+  year={2020}
+}
+```
+
+
 ## Project structure
 ```
 ./nemo
