@@ -67,7 +67,6 @@ $NEMO_CODE_ROOT/nemo/video/script/downloader.sh -c product_review
 ```
 $NEMO_CODE_ROOT/nemo/video/script/encoder.sh -c product_review
 ```
-
 [Details are described in this file.](nemo/tool/README.md)
 
 ### 3. Prepare DNNs
@@ -81,55 +80,15 @@ $NEMO_CODE_ROOT/nemo/dnn/script/train_video.sh -g 0 -c product_review -q high -i
 ```
 $NEMO_CODE_ROOT/nemo/dnn/script/test_video.sh -g 0 -c product_review -q high -i 240 -o 1080
 ```
-
 [Details are described in this file.](nemo/dnn/README.md)
 
+### 4. Prepare the SR-integrated codec (TBU)
 
+### 5. Generate a cache profile (TBU)
 
-### `Mobile devices`: Currently, we only support Android devices with Qualcomm processors   
-* Samsung Galaxy S10+: Snapdragon 855   
-* Samsung Galaxy S6 Task: Snapdragon 855   
-* Samsung Galaxy Note8: Snapdragon 835   
-* Samsung A70: Snapdragon 675   
-* Xiaomi Mi9: Snapdragon 855   
-* Xiaomi Redmi Note7: Snapdragon 660   
-* LG GPad5: Snapdragon 821   
+### 6. Benchmark NEMO vs. baselines (TBU)
 
-## Directory Structures
-
-### `nemo`
-
-This contains the source code of NEMO.
-
-### `paper`
-
-This contains additional material of the paper.
-
-### `dataset`
-
-This contains a dataset used in the paper including network traces and Youtube videos.
-
-### `demo`
-
-This contains several figures that clearly show the benefit of NEMO.
-
-## Step 1: Set up environment (TBU:10.25 Sun)
-
-## Step 2: Prepare video dataset (TBU:10.25 Sun)
- 
-## Step 3: Train/Validate a super-resolution DNN (TBU:10.25 Sun)
-
-## Step 4: Generate a cache profile (TBU:10.11.01 Sun)
-
-## Step 5: Execute on Android (TBU: 11.08, Sun)
-
-## Limitations (TBU: 11.15, Sun)
-
-## Tips: Extend libvpx (TBU: 11.15, Sun)
-
-## Tips: Extend Exoplayer (TBU: 11.22, Sun)
-
-## Tips: Support Other Platforms (TBU: 11.22, Sun)
+### 7. Play NEMO in Android smartphones (TBU)
 
 ## License
 
