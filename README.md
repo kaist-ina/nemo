@@ -24,7 +24,7 @@ This is an official Github repository for the MobiCom paper "NEMO: Enabling Neur
 We provide a step-by-step guide with a single video (which content is product review).  
 All the folloiwing commands must be executed inside the docker. 
 
-## 1. Setup
+### 1. Setup
 
 * Build a docker image (based on the Tensorflow Docker)
 ```
@@ -37,8 +37,14 @@ sudo docker build -t nemo .
 wget https://gist.githubusercontent.com/chaos5958/1be24ddcd3c15a5fc2015d15e8c44ad4/raw/141ecaa1d54eff0e3bdc04206aa3304cae2c604c/run_nemo_docker.sh
 sudo ./run_nemo_docker.sh
 ```
+* Install Tensorflow 1.14 (it is not provided by Anaconda in Python 3.5)
+```
+conda activate nemo_py3.5
+pip install tensorflow==1.14
+conda deactivate
+```
 
-## 2. Download/Encode a video
+### 2. Prepare videos
 
 * Download a Youtube video
 ```
@@ -52,7 +58,7 @@ $NEMO_CODE_ROOT/nemo/video/script/encoder.sh -c product_review
 
 [Details are described in this file.](nemo/tool/README.md)
 
-## 3. Train a DNN, and convert the TF model to the dlc
+### 3. Prepare DNNs
 
 * Train a DNN
 ```
