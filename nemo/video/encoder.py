@@ -2,7 +2,7 @@ import argparse
 import os
 import subprocess
 
-from etri.video.utility import profile_video
+from nemo.video.utility import profile_video
 
 class LibvpxEncoder():
     def __init__(self, output_video_dir, input_video_path, input_height, start, duration, ffmpeg_path):

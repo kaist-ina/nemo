@@ -26,5 +26,5 @@ fi
 
 for content in "${contents[@]}"
 do
-    python ${EDGE_CODE_ROOT}/etri/video/downloader.py --video_dir ${EDGE_DATA_ROOT}/video --content ${content}
+    python ${NEMO_CODE_ROOT}/nemo/video/downloader.py --video_dir ${NEMO_DATA_ROOT}/video --content ${content}
 done
