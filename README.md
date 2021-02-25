@@ -11,7 +11,7 @@ This is an official Github repository for the MobiCom paper "NEMO: Enabling Neur
 * NVIDIA docker: https://github.com/NVIDIA/nvidia-docker
 
 ## Guide
-We provide a step-by-step guide with a single video (which content is product review).
+We provide a step-by-step guide with a single video (which content is product review).  
 All the folloiwing commands must be executed inside the docker. 
 
 ## 1. Setup
