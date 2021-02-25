@@ -79,7 +79,7 @@ $NEMO_CODE_ROOT/nemo/dnn/script/train_video.sh -g 0 -c product_review -q high -i
 
 * Convert the TF model to the dlc
 ```
-$NEMO_CODE_ROOT/nemo/dnn/script/test_video.sh -g 0 -c product_review -q high -i 240 -o 1080
+$NEMO_CODE_ROOT/nemo/dnn/script/convert_tf_to_snpe.sh -g 0 -c product_review -q high -i 240 -o 1080
 ```
 [Details are described in this file.](nemo/dnn/README.md)
 
