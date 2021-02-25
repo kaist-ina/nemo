@@ -3,31 +3,33 @@
 This is an official Github repository for the MobiCom paper "NEMO: Enabling Neural-enhanced Video Streaming on Commodity Mobile Devices". This project is built upon Google libvpx, Android Exoplayer, and Qualcomm SNPE and consists of C/C++/Java/Python.   
 [[Project homepage]](http://ina.kaist.ac.kr/~nemo/) [[Paper]](https://dl.acm.org/doi/10.1145/3372224.3419185) [[Video]](https://www.youtube.com/watch?v=GPHlAUYCk18&ab_channel=ACMSIGMOBILEONLINE)
 
-### Notice (10.13): We’re refactoring our code for public usage, refer to the timeline below.
-
 ## Prerequisites
 
-Since Qualcomm SNPE v1.4.0 supports only legacy Tensorflow (<=1.14) and Python (3.5.0), two different environments must be set up for NEMO. We recommend using Anaconda to build separate virtual Python environments.
+* OS: Ubuntu 16.04 or higher versions
+* HW: NVIDIA GPU
+* Docker: https://docs.docker.com/install/
+* NVIDIA docker: https://github.com/NVIDIA/nvidia-docker
 
-### `Environment 1`   
-* Python 3.5    
-* Tensorflow 1.14 (CPU) - Just for converting Tensorflow models to SNPE ones   
-* imageio   
+## 1. Setup
 
-### `Environment 2`   
-* Python 3.6   
-* Tensorflow 1.15    
-* imageio   
+* Build a docker image (based on the Tensorflow Docker)
+```
+mkdir ${HOME}/nemo-docker && cd ${HOME}/docker
+wget https://gist.githubusercontent.com/chaos5958/81267beccd06a38c83e661db6f1c3f34/raw/000baf071e418d0c7ddd9edbd137fa4fa9503279/Dockerfile
+sudo docker build -t nemo .
+```
+* Run a docker image 
+```
+wget https://gist.githubusercontent.com/chaos5958/1be24ddcd3c15a5fc2015d15e8c44ad4/raw/141ecaa1d54eff0e3bdc04206aa3304cae2c604c/run_nemo_docker.sh
+sudo ./run_nemo_docker.sh
+```
 
-## Tested Environment
+## 2. Download/Encode a video
 
-We’ve implemented/tested NEMO using the following server and mobile devices.
+[Refer this file](nemo/video/README.md)
 
-### `Server`   
-* OS: Ubuntu 16.04   
-* CPU: Intel Xeon E5-2620 v4   
-* RAM: 32G   
-* GPU: NVIDIA RTX 2080Ti    
+
+
 
 ### `Mobile devices`: Currently, we only support Android devices with Qualcomm processors   
 * Samsung Galaxy S10+: Snapdragon 855   
