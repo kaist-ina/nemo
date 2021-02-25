@@ -2,9 +2,10 @@ import argparse
 import os
 import tensorflow as tf
 
-import nemo.dnn.dataset as dataset
-import nemo.dnn.trainer as trainer
-import nemo.dnn.utility as utility
+from nemo.dnn.dataset import train_video_dataset, test_video_dataset, sample_and_save_images
+from nemo.dnn.trainer import NEMOTrainer
+from nemo.dnn.utility import build_model
+from nemo.tool.video import get_video_profile
 
 if __name__ == '__main__':
     tf.enable_eager_execution()
@@ -41,19 +42,19 @@ if __name__ == '__main__':
 
     lr_video_path = os.path.join(args.data_dir, args.content, 'video', args.lr_video_name)
     hr_video_path = os.path.join(args.data_dir, args.content, 'video', args.hr_video_name)
-    lr_video_profile = utility.profile_video(lr_video_path)
-    hr_video_profile = utility.profile_video(hr_video_path)
+    lr_video_profile = get_video_profile(lr_video_path)
+    hr_video_profile = get_video_profile(hr_video_path)
     scale = args.output_height// lr_video_profile['height'] #NEMO upscales a LR image to a 1080p version
     lr_image_shape = [lr_video_profile['height'], lr_video_profile['width'], 3]
     hr_image_shape = [lr_video_profile['height'] * scale, lr_video_profile['width'] * scale, 3]
 
     lr_image_dir = os.path.join(args.data_dir, args.content, 'image', args.lr_video_name, '{}fps'.format(args.sample_fps))
     hr_image_dir = os.path.join(args.data_dir, args.content, 'image', args.hr_video_name, '{}fps'.format(args.sample_fps))
-    dataset.sample_and_save_images(lr_video_path, lr_image_dir, args.sample_fps, args.ffmpeg_path)
-    dataset.sample_and_save_images(hr_video_path, hr_image_dir, args.sample_fps, args.ffmpeg_path)
+    sample_and_save_images(lr_video_path, lr_image_dir, args.sample_fps, args.ffmpeg_path)
+    sample_and_save_images(hr_video_path, hr_image_dir, args.sample_fps, args.ffmpeg_path)
 
-    train_ds = dataset.train_video_dataset(lr_image_dir, hr_image_dir, lr_image_shape, hr_image_shape, args.batch_size, args.patch_size, args.load_on_memory)
-    test_ds = dataset.test_video_dataset(lr_image_dir, hr_image_dir, lr_image_shape, hr_image_shape, args.num_samples, args.load_on_memory)
+    train_ds = train_video_dataset(lr_image_dir, hr_image_dir, lr_image_shape, hr_image_shape, args.batch_size, args.patch_size, args.load_on_memory)
+    test_ds = test_video_dataset(lr_image_dir, hr_image_dir, lr_image_shape, hr_image_shape, args.num_samples, args.load_on_memory)
 
     """
     check patches are generated correctly
@@ -70,16 +71,16 @@ if __name__ == '__main__':
     """
 
     if args.finetune_from_div2k is False:
-        model = utility.build_model(args.model_type, args.num_blocks, args.num_filters, scale, args.upsample_type)
+        model = build_model(args.model_type, args.num_blocks, args.num_filters, scale, args.upsample_type)
         checkpoint_dir = os.path.join(args.data_dir, args.content, 'checkpoint', args.lr_video_name, model.name)
         log_dir = os.path.join(args.data_dir, args.content, 'log', args.lr_video_name,  model.name)
-        trainer = trainer.NEMOTrainer(model, checkpoint_dir, log_dir)
+        trainer = NEMOTrainer(model, checkpoint_dir, log_dir)
         trainer.train(train_ds, test_ds, args.num_epochs, args.num_steps_per_epoch)
     else:
-        model = utility.build_model(args.model_type, args.num_blocks, args.num_filters, scale, args.upsample_type)
+        model = build_model(args.model_type, args.num_blocks, args.num_filters, scale, args.upsample_type)
         div2k_checkpoint_dir = os.path.join(args.data_dir, 'DIV2K', 'checkpoint', 'DIV2K_X{}'.format(scale), model.name)
         checkpoint_dir = os.path.join(args.data_dir, args.content, 'checkpoint', args.lr_video_name, '{}_finetune'.format(model.name))
         log_dir = os.path.join(args.data_dir, args.content, 'log', args.lr_video_name,  '{}_finetune'.format(model.name))
-        trainer = trainer.NEMOTrainer(model, checkpoint_dir, log_dir)
+        trainer = NEMOTrainer(model, checkpoint_dir, log_dir)
         trainer.restore(div2k_checkpoint_dir)
         trainer.train(train_ds, test_ds, args.num_epochs, args.num_steps_per_epoch)

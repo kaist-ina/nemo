@@ -4,7 +4,8 @@ import os
 
 import tensorflow as tf
 
-import nemo.dnn.utility as utility
+from nemo.dnn.utility import build_model
+from nemo.tool.video import get_video_profile
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -25,12 +26,12 @@ if __name__ == '__main__':
 
     #scale, dnn
     video_path = os.path.join(args.dataset_dir, args.content, 'video', args.video_name)
-    video_profile = utility.profile_video(video_path)
+    video_profile = get_video_profile(video_path)
 
     with tf.Graph().as_default(), tf.Session() as sess:
         init = tf.global_variables_initializer()
         sess.run(init)
-        model = utility.build_model(args.model_type, args.num_blocks, args.num_filters, args.scale, args.upsample_type)
+        model = build_model(args.model_type, args.num_blocks, args.num_filters, args.scale, args.upsample_type)
 
         log_dir = os.path.join(args.dataset_dir, args.content, 'log', args.video_name,  model.name)
         os.makedirs(log_dir, exist_ok=True)

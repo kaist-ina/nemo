@@ -3,7 +3,7 @@ import os
 
 import tensorflow as tf
 
-import nemo.dnn.utility as utility
+from nemo.dnn.utility import resolve_bilinear
 
 class Trainer:
     def __init__(self, model, loss, learning_rate, checkpoint_dir, log_dir, max_to_keep=1):
@@ -37,7 +37,7 @@ class Trainer:
 
             height = tf.shape(hr_img)[1]
             width = tf.shape(hr_img)[2]
-            bilinear_img = utility.resolve_bilinear(lr_img, height, width)
+            bilinear_img = resolve_bilinear(lr_img, height, width)
             bilinear_psnr = tf.image.psnr(bilinear_img, hr_img, max_val=255)[0]
             if tf.math.is_inf(bilinear_psnr):
                 bilinear_psnr = 100
