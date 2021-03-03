@@ -16,6 +16,8 @@ If you use our work for research, please cite it.
 Lastly, NEMO is currently protected under the patent and is retricted to be used for the commercial usage.  
 * `BY-NC-SA` – [Attribution-NonCommercial-ShareAlike](https://github.com/idleberg/Creative-Commons-Markdown/blob/master/4.0/by-nc-sa.markdown)
 
+* **Notice (03.03): Updates will be done until late March-early April due to military training during 03.04-03.25.**
+
 ## Project structure
 ```
 ./nemo
