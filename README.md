@@ -79,7 +79,7 @@ $NEMO_CODE_ROOT/nemo/video/script/encode_video.sh -c product_review
 $NEMO_CODE_ROOT/nemo/dnn/script/train_video.sh -g 0 -c product_review -q high -i 240 -o 1080
 ```
 
-* Convert the TF model to the dlc
+* Convert the TF model to the Qualcomm SNPE dlc
 ```
 $NEMO_CODE_ROOT/nemo/dnn/script/convert_tf_to_snpe.sh -g 0 -c product_review -q high -i 240 -o 1080
 ```
