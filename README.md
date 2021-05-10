@@ -40,23 +40,23 @@ We provide a step-by-step guide with a single video (which content is product re
 All the folloiwing commands must be executed inside the docker. 
 
 ### 1. Setup
-
-* Build a docker image (based on the Tensorflow Docker)
+* Clone the NEMO docker repository
 ```
-mkdir ${HOME}/nemo-docker && cd ${HOME}/docker
-wget https://gist.githubusercontent.com/chaos5958/81267beccd06a38c83e661db6f1c3f34/raw/000baf071e418d0c7ddd9edbd137fa4fa9503279/Dockerfile
-sudo docker build -t nemo .
+git clone https://github.com/chaos5958/nemo-docker.git
 ```
-* Run a docker image 
+* Build the docker image 
 ```
-wget https://gist.githubusercontent.com/chaos5958/1be24ddcd3c15a5fc2015d15e8c44ad4/raw/141ecaa1d54eff0e3bdc04206aa3304cae2c604c/run_nemo_docker.sh
-sudo ./run_nemo_docker.sh
+cd ${HOME}/docker
+./build.sh
 ```
-* Install Tensorflow 1.14 (it is not provided by Anaconda in Python 3.5)
+* Run & Attach to the docker
 ```
-conda activate nemo_py3.5
-pip install tensorflow==1.14
-conda deactivate
+cd ${HOME}/docker
+./run.sh
+```
+* Clone the NEMO main repository
+```
+git clone https://github.com/kaist-ina/nemo-main.git ${NEMO_CODE_ROOT}
 ```
 
 ### 2. Prepare videos
