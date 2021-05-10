@@ -16,8 +16,6 @@ If you use our work for research, please cite it.
 Lastly, NEMO is currently protected under the patent and is retricted to be used for the commercial usage.  
 * `BY-NC-SA` – [Attribution-NonCommercial-ShareAlike](https://github.com/idleberg/Creative-Commons-Markdown/blob/master/4.0/by-nc-sa.markdown)
 
-* **Notice (03.03): Updates will be done until late March-early April due to military training during 03.04-03.25.**
-
 ## Project structure
 ```
 ./nemo
@@ -46,12 +44,12 @@ git clone https://github.com/chaos5958/nemo-docker.git
 ```
 * Build the docker image 
 ```
-cd ${HOME}/docker
+cd ${HOME}/nemo-docker
 ./build.sh
 ```
 * Run & Attach to the docker
 ```
-cd ${HOME}/docker
+cd ${HOME}/nemo-docker
 ./run.sh
 ```
 * Clone the NEMO main repository
@@ -63,12 +61,12 @@ git clone https://github.com/kaist-ina/nemo-main.git ${NEMO_CODE_ROOT}
 
 * Download a Youtube video
 ```
-$NEMO_CODE_ROOT/nemo/video/script/download_video.sh -c product_review
+$NEMO_CODE_ROOT/nemo/tool/script/download_video.sh -c product_review
 ```
 
 * Encode the video 
 ```
-$NEMO_CODE_ROOT/nemo/video/script/encode_video.sh -c product_review
+$NEMO_CODE_ROOT/nemo/tool/script/encode_video.sh -c product_review
 ```
 [Details are described in this file.](nemo/tool/README.md)
 
