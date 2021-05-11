@@ -83,7 +83,7 @@ $NEMO_CODE_ROOT/nemo/dnn/script/convert_tf_to_snpe.sh -g 0 -c product_review -q 
 ```
 [Details are described in this file.](nemo/dnn/README.md)
 
-### 4. Generate a cache profile (TBU)
+### 4. Generate a cache profile 
 
 * Build the SR-integrated codec
 ```
@@ -92,12 +92,13 @@ $NEMO_CODE_ROOT/nemo/cache_profile/script/setup.sh
 
 * Generate the cache profile using the codec
 ```
-$NEMO_CODE_ROOT/nemo/cache_profile/script/select_anchor_frames.sh -g 0 -c product_review -q high -i 240 -o 1080 -a nemo
+$NEMO_CODE_ROOT/nemo/cache_profile/script/select_anchor_points.sh -g 0 -c product_review -q high -i 240 -o 1080 -a nemo
 ```
 
 * (Optional) Analyze frame dependencies & frame types
 ```
 ```
+[Details are described in this file.](nemo/cache_profile/README.md)
 
 ### 5. Benchmark NEMO vs. baselines (TBU)
 
