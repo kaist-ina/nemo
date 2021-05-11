@@ -54,7 +54,7 @@ cd ${HOME}/nemo-docker
 ```
 * Clone the NEMO main repository
 ```
-git clone https://github.com/kaist-ina/nemo-main.git ${NEMO_CODE_ROOT}
+git clone --recurse-submodules https://github.com/kaist-ina/nemo-main.git ${NEMO_CODE_ROOT}
 ```
 
 ### 2. Prepare videos
@@ -83,12 +83,25 @@ $NEMO_CODE_ROOT/nemo/dnn/script/convert_tf_to_snpe.sh -g 0 -c product_review -q 
 ```
 [Details are described in this file.](nemo/dnn/README.md)
 
-### 4. Prepare the SR-integrated codec (TBU)
+### 4. Generate a cache profile 
 
-### 5. Generate a cache profile (TBU)
+* Build the SR-integrated codec
+```
+$NEMO_CODE_ROOT/nemo/cache_profile/script/setup.sh
+```
 
-### 6. Benchmark NEMO vs. baselines (TBU)
+* Generate the cache profile using the codec
+```
+$NEMO_CODE_ROOT/nemo/cache_profile/script/select_anchor_points.sh -g 0 -c product_review -q high -i 240 -o 1080 -a nemo
+```
 
-### 7. Play NEMO in Android smartphones (TBU)
+* (Optional) Analyze frame dependencies & frame types
+```
+```
+[Details are described in this file.](nemo/cache_profile/README.md)
+
+### 5. Benchmark NEMO vs. baselines (TBU)
+
+### 6. Play NEMO in Android smartphones (TBU)
 
 ## FAQ (TBU)
