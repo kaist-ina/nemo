@@ -73,6 +73,16 @@ class NEMO_S():
 
         return model
 
+    def load(self, checkpoint_dir):
+        model = self.build()
+        checkpoint = tf.train.Checkpoint(model=model)
+        checkpoint_manager = tf.train.CheckpointManager(checkpoint=checkpoint, directory=checkpoint_dir, max_to_keep=1)
+        checkpoint_path = checkpoint_manager.latest_checkpoint
+        assert(checkpoint_path is not None)
+        checkpoint.restore(checkpoint_path).expect_partial()
+
+        return checkpoint
+
 if __name__ == '__main__':
     tf.enable_eager_execution()
     with tf.device('/gpu:0'):
