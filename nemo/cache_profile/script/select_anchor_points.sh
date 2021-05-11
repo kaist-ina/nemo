@@ -108,14 +108,14 @@ function _set_output_size(){
 
 [[ ($# -ge 1)  ]] || { echo "[ERROR] Invalid number of arguments. See -h for help."; exit 1;  }
 
-while getopts ":g:c:q:r:a:o:h" opt; do
+while getopts ":g:c:q:i:a:o:h" opt; do
     case $opt in
         h) _usage; exit 0;;
         a) algorithm="$OPTARG";;
         g) gpu_index="$OPTARG";;
         c) content="$OPTARG";;
         q) quality="$OPTARG";;
-        r) resolution="$OPTARG";;
+        i) input_resolution="$OPTARG";;
         o) output_resolution="$OPTARG";;
         \?) exit 1;
     esac
@@ -141,8 +141,8 @@ if [ -z "${quality+x}" ]; then
     exit 1;
 fi
 
-if [ -z "${resolution+x}" ]; then
-    echo "[ERROR] resolution is not set"
+if [ -z "${input_resolution+x}" ]; then
+    echo "[ERROR] input_resolution is not set"
     exit 1;
 fi
 
@@ -152,7 +152,7 @@ fi
 
 _set_conda
 _set_output_size ${output_resolution}
-_set_bitrate ${resolution}
-_set_num_blocks ${resolution} ${quality}
-_set_num_filters ${resolution} ${quality}
-CUDA_VISIBLE_DEVICES=${gpu_index} python ${NEMO_CODE_ROOT}/nemo/cache_profile/select_anchor_points.py --data_dir ${NEMO_DATA_ROOT} --content ${content}${index} --lr_video_name ${resolution}p_${bitrate}kbps_s0_d300.webm --hr_video_name 2160p_12000kbps_s0_d300.webm --num_blocks ${num_blocks} --num_filters ${num_filters} --algorithm ${algorithm} --output_width ${output_width} --output_height ${output_height}
+_set_bitrate ${input_resolution}
+_set_num_blocks ${input_resolution} ${quality}
+_set_num_filters ${input_resolution} ${quality}
+CUDA_VISIBLE_DEVICES=${gpu_index} python ${NEMO_CODE_ROOT}/nemo/cache_profile/select_anchor_points.py --data_dir ${NEMO_DATA_ROOT} --content ${content}${index} --lr_video_name ${input_resolution}p_${bitrate}kbps_s0_d300.webm --hr_video_name 2160p_12000kbps_s0_d300.webm --num_blocks ${num_blocks} --num_filters ${num_filters} --algorithm ${algorithm} --output_width ${output_width} --output_height ${output_height}
