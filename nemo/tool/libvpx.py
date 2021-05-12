@@ -308,6 +308,32 @@ def save_cache_frame(vpxdec_path, dataset_dir, input_video_name, reference_video
     subprocess.check_call(shlex.split(command),stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
     #subprocess.check_call(shlex.split(command),stdin=subprocess.DEVNULL)
 
+def offline_cache_metadata(vpxdec_path, dataset_dir, input_video_name,  \
+                                model_name, cache_profile_name, output_width, output_height, skip=None, limit=None, postfix=None):
+    #log file
+    if postfix is not None:
+        log_path = os.path.join(dataset_dir, 'log', input_video_name, model_name, postfix, os.path.basename(cache_profile_name), 'metadata.txt')
+    else:
+        log_path = os.path.join(dataset_dir, 'log', input_video_name, model_name, os.path.basename(cache_profile_name), 'metadata.txt')
+
+    #run sr-integrated decoder
+    input_video_path = os.path.join(dataset_dir, 'video', input_video_name
+    input_resolution = get_video_profile(input_video_path)['height']
+    scale = output_height // input_resolution
+
+    if not os.path.exists(log_path):
+        command = '{} --codec=vp9 --noblit --frame-buffers=50 --dataset-dir={} \
+        --input-video-name={} --decode-mode=decode_cache --dnn-mode=offline_dnn --cache-mode=profile_cache \
+        --output-width={} --output-height={} --save-metadata --dnn-name={} --dnn-scale={} --cache-profile-name={}'.format(vpxdec_path, \
+                            dataset_dir, input_video_name, output_width, output_height, model_name, scale, cache_profile_name)
+        if skip is not None:
+            command += ' --skip={}'.format(skip)
+        if limit is not None:
+            command += ' --limit={}'.format(limit)
+        if postfix is not None:
+            command += ' --postfix={}'.format(postfix)
+        subprocess.check_call(shlex.split(command),stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+
 def offline_cache_quality(vpxdec_path, dataset_dir, input_video_name, reference_video_name,  \
                                 model_name, cache_profile_name, output_width, output_height, skip=None, limit=None, postfix=None):
     #log file

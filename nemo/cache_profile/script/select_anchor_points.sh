@@ -3,7 +3,7 @@
 function _usage()
 {
 cat << EOF
-_usage: $(basename ${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}) [-g GPU_INDEX] [-c CONTENT] [-q QUALITY] [-r RESOLUTION] [-a ALGORITHM] [-o OUTPUT_RESOLUTION]
+_usage: $(basename ${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}) [-g GPU_INDEX] [-c CONTENT] [-q QUALITY] [-i INPUT_RESOLUTION] [-a ALGORITHM] [-o OUTPUT_RESOLUTION]
 EOF
 }
 

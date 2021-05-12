@@ -38,7 +38,6 @@ if __name__ == '__main__':
 
     if args.vpxdec_path is None:
         args.vpxdec_path = os.path.join(os.environ['NEMO_CODE_ROOT'], 'third_party', 'libvpx', 'bin', 'vpxdec_nemo_ver2_x86')
-        print(args.vpxdec_path)
         assert(os.path.exists(args.vpxdec_path))
 
     #profile videos
