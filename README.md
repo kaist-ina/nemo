@@ -98,6 +98,7 @@ $NEMO_CODE_ROOT/nemo/cache_profile/script/select_anchor_points.sh -g 0 -c produc
 
 * (Optional) Analyze frame dependencies & frame types
 ```
+$NEMO_CODE_ROOT/nemo/cache_profile/script/analyze_video.sh -g 0 -c product_review -q high -i 240 -o 1080 -a nemo
 ```
 [Details are described in this file.](nemo/cache_profile/README.md)
 
