@@ -21,9 +21,10 @@ Lastly, NEMO is currently protected under the patent and is retricted to be used
 ./nemo
 ├── video                  # Python: Video downloader/encoder
 ├── dnn                    # Python: DNN trainer/converter
-├── codec                  # C/C++: SR-integrated codec built upon libvpx
-├── cache_profile          # Python: Cache profile generator
+├── cache_profile          # Python: Anchor point selector
 ├── player                 # Java, C/C++: Android video player built upon Exoplayer and the SR-integrated codec
+./third_party
+├── libvpx                 # C/C++: SR-integrated codec
 ```
 
 ## Prerequisites
