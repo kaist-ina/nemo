@@ -33,6 +33,8 @@ Lastly, NEMO is currently protected under the patent and is retricted to be used
 * HW: NVIDIA GPU
 * Docker: https://docs.docker.com/install/
 * NVIDIA docker: https://github.com/NVIDIA/nvidia-docker
+* Qualcomm SNPE SDK (v1.40.0): https://developer.qualcomm.com/software/qualcomm-neural-processing-sdk/tools 
+  (We cannot provide this due to the Qualcom license policy.)
 
 ## Guide
 We provide a step-by-step guide with a single video (which content is product review).  
@@ -57,6 +59,19 @@ cd ${HOME}/nemo-docker
 ```
 git clone --recurse-submodules https://github.com/kaist-ina/nemo-main.git ${NEMO_CODE_ROOT}
 ```
+* Download/Setup the Qualcomm SNPE SDK as follow:
+```
+./nemo
+├── third_party
+    ├── snpe
+        ├── benchmarks
+        ├── bin
+        ├── include
+        ├── lib
+        ├── models
+        ├── share
+        ...
+```
 
 ### 2. Prepare videos
 
@@ -78,9 +93,13 @@ $NEMO_CODE_ROOT/nemo/tool/script/encode_video.sh -c product_review
 $NEMO_CODE_ROOT/nemo/dnn/script/train_video.sh -g 0 -c product_review -q high -i 240 -o 1080
 ```
 
-* Convert the TF model to the Qualcomm SNPE dlc
+* (Optional) Convert the TF model to the Qualcomm SNPE dlc
 ```
 $NEMO_CODE_ROOT/nemo/dnn/script/convert_tf_to_snpe.sh -g 0 -c product_review -q high -i 240 -o 1080
+```
+
+* (Optional) Test the dlc on Qualcomm devices
+```
 ```
 [Details are described in this file.](nemo/dnn/README.md)
 
