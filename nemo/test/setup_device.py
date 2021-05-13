@@ -22,7 +22,7 @@ if __name__ == '__main__':
     parser.add_argument('--num_filters', type=int)
     parser.add_argument('--num_blocks', type=int)
     parser.add_argument('--upsample_type', type=str, default='deconv')
-    parser.add_argument('--train_type', type=str, default='finetune_video')
+    parser.add_argument('--train_type', type=str, default='train_video')
 
     #anchor point selector
     parser.add_argument('--algorithm', type=str, required=True)

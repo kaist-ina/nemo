@@ -94,7 +94,7 @@ function _set_num_filters(){
 
 [[ ($# -ge 1)  ]] || { echo "[ERROR] Invalid number of arguments. See -h for help."; exit 1;  }
 
-while getopts ":c:q:r:t:a:d:h" opt; do
+while getopts ":c:i:q:r:t:a:d:h" opt; do
     case $opt in
         h) _usage; exit 0;;
         a) algorithm="$OPTARG";;
@@ -135,4 +135,4 @@ _set_conda
 _set_bitrate ${resolution}
 _set_num_blocks ${resolution} ${quality}
 _set_num_filters ${resolution} ${quality}
-CUDA_VISIBLE_DEVICES=${gpu_index} python ${NEMO_CODE_ROOT}/nemo/test/setup_device.py --data_dir ${NEMO_DATA_ROOT} --content ${content} --video_name ${resolution}p_${bitrate}kbps_s0_d300.webm --lib_dir ${NEMO_CODE_ROOT}/nemo/test/libs/arm64-v8a --num_blocks ${num_blocks} --num_filters ${num_filters} --algorithm=${algorithm} --device_id=${device_id}
+CUDA_VISIBLE_DEVICES=${gpu_index} python ${NEMO_CODE_ROOT}/nemo/test/measure_latency.py --data_dir ${NEMO_DATA_ROOT} --content ${content} --video_name ${resolution}p_${bitrate}kbps_s0_d300.webm --num_blocks ${num_blocks} --num_filters ${num_filters} --algorithm=${algorithm} --device_id=${device_id}
