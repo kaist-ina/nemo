@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">ExoPlayerNewLibvpx</string>
+
+    <string-array name = "content">
+        <item>product_review</item>
+        <item>vlogs</item>
+        <item>how_to</item>
+        <item>skit</item>
+        <item>game_play</item>
+        <item>haul</item>
+        <item>challenge</item>
+        <item>education</item>
+        <item>favorite</item>
+        <item>unboxing</item>
+    </string-array>
+
+    <string-array name = "index">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name = "quality">
+        <item>low</item>
+        <item>medium</item>
+        <item>high</item>
+    </string-array>
+
+    <string-array name = "resolution">
+        <item>240</item>
+        <item>360</item>
+        <item>480</item>
+    </string-array>
+
+    <string-array name = "mode">
+        <item>Decode</item>
+        <item>Decode-SR</item>
+        <item>Decode-Cache</item>
+    </string-array>
+
+    <string-array name = "loopback">
+        <item>None</item>
+        <item>60</item>
+        <item>100</item>
+        <item>350</item>
+        <item>3500</item>
+    </string-array>
+
+    <string-array name = "algorithm">
+        <item>0.5</item>
+        <item>0.75</item>
+        <item>1.0</item>
+        <item>1.5</item>
+        <item>2.0</item>
+    </string-array>
+</resources>

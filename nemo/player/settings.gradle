@@ -1,0 +1,5 @@
+include ':app'
+rootProject.name='ExoPlayerNewLibvpx'
+gradle.ext.exoplayerRoot = './ExoPlayer'
+gradle.ext.exoplayerModulePrefix = 'activity_player-'
+apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
