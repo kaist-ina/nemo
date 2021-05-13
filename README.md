@@ -135,4 +135,4 @@ $NEMO_CODE_ROOT/nemo/test/script/measure_quality.sh -g 0 -c product_review -q hi
 
 ### 6. Play NEMO in Android smartphones (TBU)
 
-## FAQ (TBU)
+
