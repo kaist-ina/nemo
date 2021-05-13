@@ -100,6 +100,7 @@ $NEMO_CODE_ROOT/nemo/dnn/script/convert_tf_to_snpe.sh -g 0 -c product_review -q 
 
 * (Optional) Test the dlc on Qualcomm devices
 ```
+$NEMO_CODE_ROOT/nemo/dnn/script/test_snpe.sh -g 0 -c product_review -q high -r 240 -s 4 -d [device id]
 ```
 [Details are described in this file.](nemo/dnn/README.md)
 
@@ -121,7 +122,15 @@ $NEMO_CODE_ROOT/nemo/cache_profile/script/analyze_video.sh -g 0 -c product_revie
 ```
 [Details are described in this file.](nemo/cache_profile/README.md)
 
-### 5. Benchmark NEMO vs. baselines (TBU)
+### 5. Compare NEMO vs. baselines
+* Measure the latency
+```
+./measure_latency.sh -c product_review -q high -r 360 -a nemo_0.5 -d [device id]
+```
+* Measure the quality
+```
+```
+[Details are described in this file.](nemo/test/README.md)
 
 ### 6. Play NEMO in Android smartphones (TBU)
 
