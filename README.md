@@ -100,7 +100,7 @@ $NEMO_CODE_ROOT/nemo/dnn/script/convert_tf_to_snpe.sh -g 0 -c product_review -q 
 
 * (Optional) Test the dlc on Qualcomm devices
 ```
-$NEMO_CODE_ROOT/nemo/dnn/script/test_snpe.sh -g 0 -c product_review -q high -r 240 -s 4
+$NEMO_CODE_ROOT/nemo/dnn/script/test_snpe.sh -g 0 -c product_review -q high -r 240 -s 4 -d [device id]
 ```
 [Details are described in this file.](nemo/dnn/README.md)
 
