@@ -3,26 +3,27 @@
 function _usage()
 {
 cat << EOF
-_usage: $(basename ${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}) [-c CONTENTS] [-i INDEXES] [-d DEVICE_ID] [-q QUALITIES] [-r RESOLUTIONS] [-t TRAIN_TYPES] [-s SCALE]
-
-mandatory arguments:
--c CONTENTS                 Specifies contents (e.g., product_review)
--d DEVICE_ID                Specifies device id (e.g., 7b7f59d1)
--s SCALE                    Specifies dnn scale (e.g., 4)
-
-optional multiple arguments:
--i INDEXES                  Specifies indexes (e.g., 0)
--q QUALITIES                Specifies qualities (e.g., low)
--r RESOLUTIONS              Specifies resolutions (e.g., 240)
--t TRAIN_TYPES              Specifies train types (e.g., train_video)
-
+_usage: $(basename ${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}) [-c CONTENT] [-d DEVICE_ID] [-q QUALITY] [-r RESOLUTION] [-s SCALE]
 EOF
 }
 
 function _set_conda(){
-    source ~/anaconda3/etc/profile.d/conda.sh
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/opt/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
+            . "/opt/conda/etc/profile.d/conda.sh"
+        else
+            export PATH="/opt/conda/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
     conda deactivate
-    conda activate nemo_py3.4
+    conda activate nemo_py3.5
 }
 
 function _set_bitrate(){
@@ -93,21 +94,19 @@ function _set_num_filters(){
 
 [[ ($# -ge 1)  ]] || { echo "[ERROR] Invalid number of arguments. See -h for help."; exit 1;  }
 
-while getopts ":c:i:q:r:t:d:s:h" opt; do
+while getopts ":c:q:r:d:s:h" opt; do
     case $opt in
         h) _usage; exit 0;;
-        c) contents+=("$OPTARG");;
-        i) indexes+=("$OPTARG");;
-        q) qualities+=("$OPTARG");;
-        r) resolutions+=("$OPTARG");;
-        t) train_types+=("$OPTARG");;
+        c) content=("$OPTARG");;
+        q) quality=("$OPTARG");;
+        r) resolution=("$OPTARG");;
         d) device_id=("$OPTARG");;
         s) scale=("$OPTARG");;
         \?) exit 1;
     esac
 done
 
-if [ -z "${contents+x}" ]; then
+if [ -z "${content+x}" ]; then
     echo "[ERROR] contents is not set"
     exit 1;
 fi
@@ -122,40 +121,18 @@ if [ -z "${scale+x}" ]; then
     exit 1;
 fi
 
-if [ -z "${qualities+x}" ]; then
-    qualities=("low" "medium" "high")
+if [ -z "${quality+x}" ]; then
+    echo "[ERROR] quality is not set"
+    exit 1;
 fi
 
-if [ -z "${resolutions+x}" ]; then
-    resolutions=("240" "360" "480")
-fi
-
-if [ -z "${train_types+x}" ]; then
-    train_types=("train_video" "finetune_video" "train_div2k")
-fi
-
-if [ -z "${indexes+x}" ]; then
-    indexes=("1" "2" "3")
+if [ -z "${resolution+x}" ]; then
+    echo "[ERROR] resolution is not set"
+    exit 1;
 fi
 
 _set_conda
-
-for content in "${contents[@]}"
-do
-    for index in "${indexes[@]}"
-    do
-        for quality in "${qualities[@]}"
-        do
-            for resolution in "${resolutions[@]}";
-            do
-                for train_type in "${train_types[@]}"
-                do
-                    _set_bitrate ${resolution}
-                    _set_num_blocks ${resolution} ${quality}
-                    _set_num_filters ${resolution} ${quality}
-                   CUDA_VISIBLE_DEVICES=0 python ${NEMO_ROOT}/dnn/test_snpe.py --data_dir ${NEMO_ROOT}/data --content ${content}${index} --video_name ${resolution}p_${bitrate}kbps_s0_d300.webm  --num_blocks ${num_blocks} --num_filters ${num_filters} --train_type ${train_type} --device_id ${device_id} --scale ${scale}
-                done
-            done
-        done
-    done
-done
+_set_bitrate ${resolution}
+_set_num_blocks ${resolution} ${quality}
+_set_num_filters ${resolution} ${quality}
+CUDA_VISIBLE_DEVICES=0 python ${NEMO_CODE_ROOT}/nemo/dnn/test_snpe.py --data_dir ${NEMO_DATA_ROOT} --content ${content} --video_name ${resolution}p_${bitrate}kbps_s0_d300.webm  --num_blocks ${num_blocks} --num_filters ${num_filters} --train_type train_video --device_id ${device_id} --scale ${scale}

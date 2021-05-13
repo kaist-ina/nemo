@@ -7,9 +7,9 @@ import importlib
 
 import numpy as np
 
-import nemo.dnn.model
 from nemo.tool.snpe import snpe_convert_model, snpe_convert_dataset, snpe_benchmark, snpe_benchmark_random_config
-from nemo.tool.video import profile_video
+from nemo.tool.video import get_video_profile
+from nemo.dnn.utility import build_model
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -37,10 +37,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     video_path = os.path.join(args.data_dir, args.content, 'video', args.video_name)
-    video_profile = profile_video(video_path)
+    video_profile = get_video_profile(video_path)
     input_shape = [1, video_profile['height'], video_profile['width'], 3]
 
-    model = nemo.dnn.model.build(args.model_type, args.num_blocks, args.num_filters, args.scale, args.upsample_type, apply_clip=True)
+    model = build_model(args.model_type, args.num_blocks, args.num_filters, args.scale, args.upsample_type, apply_clip=True)
     if args.train_type == 'train_video':
         checkpoint_dir = os.path.join(args.data_dir, args.content, 'checkpoint', args.video_name, model.name)
         log_dir = os.path.join(args.data_dir, args.content, 'log', args.video_name, model.name, 'snpe_random_benchmark')
