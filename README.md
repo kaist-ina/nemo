@@ -125,7 +125,7 @@ $NEMO_CODE_ROOT/nemo/cache_profile/script/analyze_video.sh -g 0 -c product_revie
 ### 5. Compare NEMO vs. baselines
 * Measure the latency
 ```
-$NEMO_CODE_ROOT/nemo/test/script//measure_latency.sh -c product_review -q high -r 360 -a nemo_0.5 -d [device id]
+$NEMO_CODE_ROOT/nemo/test/script/measure_latency.sh -c product_review -q high -r 360 -a nemo_0.5 -d [device id]
 ```
 * Measure the quality
 ```
