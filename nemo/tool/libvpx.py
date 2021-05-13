@@ -317,7 +317,7 @@ def offline_cache_metadata(vpxdec_path, dataset_dir, input_video_name,  \
         log_path = os.path.join(dataset_dir, 'log', input_video_name, model_name, os.path.basename(cache_profile_name), 'metadata.txt')
 
     #run sr-integrated decoder
-    input_video_path = os.path.join(dataset_dir, 'video', input_video_name
+    input_video_path = os.path.join(dataset_dir, 'video', input_video_name)
     input_resolution = get_video_profile(input_video_path)['height']
     scale = output_height // input_resolution
 
