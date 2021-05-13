@@ -129,9 +129,10 @@ $NEMO_CODE_ROOT/nemo/test/script/measure_latency.sh -c product_review -q high -r
 ```
 * Measure the quality
 ```
+$NEMO_CODE_ROOT/nemo/test/script/measure_quality.sh -g 0 -c product_review -q high -i 360 -o 1080 -a nemo_0.5 
 ```
 [Details are described in this file.](nemo/test/README.md)
 
 ### 6. Play NEMO in Android smartphones (TBU)
 
-## FAQ (TBU)
+
