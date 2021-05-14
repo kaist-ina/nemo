@@ -76,7 +76,7 @@ public class PlayerActivity extends AppCompatActivity {
     //TODO: video relative path, content path
 
     private void setupExoPlayer(String content, String index, String quality, String resolution, String mode, String algorithm) {
-        String contentPath = DATA_ROOT_PATH + File.separator + content + index;
+        String contentPath = DATA_ROOT_PATH + File.separator + content; // TODO: remove index
         String videoName ="";
         int decodeMode = 0;
 
