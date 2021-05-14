@@ -1,3 +1,14 @@
+### How to setup?
+```
+$NEMO_CODE_ROOT/nemo/test/script/setup_local.sh 
+```
+* This builds the SR-integrated codec for mobiles.
+```
+$NEMO_CODE_ROOT/nemo/test/script/setup_device.sh -c [content name] -q [quality level] -r [input resolution] -a [algorithm] -d [device id]
+(e.g., $NEMO_CODE_ROOT/nemo/test/script/setup_device.sh -c product_review -q high -r 240 -a nemo_0.5 -d [device id])
+```
+* This copies libvpx binary files, videos, DNNs, cache profiles to mobiles.
+
 ### How to measure the latency?
 ```
 $NEMO_CODE_ROOT/nemo/test/script//measure_latency.sh -c [content name] -q [quality level] -r [input resolution] -a [algorithm] -d [device id]
