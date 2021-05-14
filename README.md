@@ -106,7 +106,7 @@ $NEMO_CODE_ROOT/nemo/dnn/script/test_snpe.sh -g 0 -c product_review -q high -r 2
 
 ### 4. Generate a cache profile 
 
-* Build the SR-integrated codec
+* Setup: Build the SR-integrated codec (x86_64)
 ```
 $NEMO_CODE_ROOT/nemo/cache_profile/script/setup.sh
 ```
@@ -123,16 +123,29 @@ $NEMO_CODE_ROOT/nemo/cache_profile/script/analyze_video.sh -g 0 -c product_revie
 [Details are described in this file.](nemo/cache_profile/README.md)
 
 ### 5. Compare NEMO vs. baselines
+* Setup: Build the SR-integrated codec (arm64-v8)
+```
+$NEMO_CODE_ROOT/nemo/test/script/setup_local.sh 
+```
+* Setup: Copy data to mobile devices 
+```
+$NEMO_CODE_ROOT/nemo/test/script/setup_device.sh -c product_review -q high -r 240 -a nemo_0.5 -d [device id]
+```
 * Measure the latency
 ```
-$NEMO_CODE_ROOT/nemo/test/script/measure_latency.sh -c product_review -q high -r 360 -a nemo_0.5 -d [device id]
+$NEMO_CODE_ROOT/nemo/test/script/measure_latency.sh -c product_review -q high -r 240 -a nemo_0.5 -d [device id]
 ```
 * Measure the quality
 ```
-$NEMO_CODE_ROOT/nemo/test/script/measure_quality.sh -g 0 -c product_review -q high -i 360 -o 1080 -a nemo_0.5 
+$NEMO_CODE_ROOT/nemo/test/script/measure_quality.sh -g 0 -c product_review -q high -i 240 -o 1080 -a nemo_0.5 
 ```
 [Details are described in this file.](nemo/test/README.md)
 
 ### 6. Play NEMO in Android smartphones (TBU)
+* Setup: Copy data to mobile devices
+```
+$NEMO_CODE_ROOT/nemo/player/script/setup_device.sh -c product_review -q high -r 240 -a nemo_0.5 -d [device id] -a nemo_0.5_16
+```
+* Run the NEMO player: Open `$NEMO_CODE_ROOT/nemo/player` using Android Studio, and build & run it!
 
 
