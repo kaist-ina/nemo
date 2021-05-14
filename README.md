@@ -146,7 +146,11 @@ $NEMO_CODE_ROOT/nemo/test/script/measure_quality.sh -g 0 -c product_review -q hi
 ```
 $NEMO_CODE_ROOT/nemo/player/script/setup_device.sh -c product_review -q high -r 240 -a nemo_0.5 -d [device id] -a nemo_0.5_16
 ```
-* Run the NEMO player: Open `$NEMO_CODE_ROOT/nemo/player` using Android Studio, and build & run it!
+* Run the NEMO player
+1. Enable USB debugging and USB install at mobiles.
+2. Open `$NEMO_CODE_ROOT/nemo/player` using Android Studio.
+3. Set ndk path in local.properties as `ndk.dir=[ndk folder]/android-ndk-14b`; I used `android-ndk-14b`.
+4. Build & run it!
 ```
 App information
 * product review: You can choose content.
