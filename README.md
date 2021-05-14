@@ -147,5 +147,13 @@ $NEMO_CODE_ROOT/nemo/test/script/measure_quality.sh -g 0 -c product_review -q hi
 $NEMO_CODE_ROOT/nemo/player/script/setup_device.sh -c product_review -q high -r 240 -a nemo_0.5 -d [device id] -a nemo_0.5_16
 ```
 * Run the NEMO player: Open `$NEMO_CODE_ROOT/nemo/player` using Android Studio, and build & run it!
-
+```
+App information
+* product review: You can choose content.
+* 1: it is deprecated.
+* high: You can choose DNN quality level.
+* Decode-Cache: You can choose Decode, Decode-SR (=per frame super-resolution), Decode-cache (=NEMO).
+* None: You can choose total playback time.
+* 0.5: You can choose the cache profile, 0.5 represents the quality threshold compared to per-frame super-resolutionl.
+```
 
