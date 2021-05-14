@@ -57,7 +57,7 @@ cd ${HOME}/nemo-docker
 ```
 * Clone the NEMO main repository
 ```
-git clone --recurse-submodules https://github.com/kaist-ina/nemo-main.git ${NEMO_CODE_ROOT}
+git clone --recurse-submodules https://github.com/kaist-ina/nemo.git ${NEMO_CODE_ROOT}
 ```
 * Download/Setup the Qualcomm SNPE SDK as follow:
 ```
