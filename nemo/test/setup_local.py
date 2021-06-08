@@ -29,7 +29,7 @@ if __name__ == '__main__':
     # configure
     cmd = 'cd {} && make distclean'.format(args.libvpx_dir)
     cmd = 'cd {} && ./configure {}'.format(args.jni_dir, args.ndk_dir)
-    #os.system(cmd)
+    os.system(cmd)
 
     # build
     build_dir = os.path.join(args.jni_dir, '..')
