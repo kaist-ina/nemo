@@ -61,6 +61,6 @@ if __name__ == '__main__':
     print('content - {}, video - {}, dnn - {}'.format(args.content, args.lr_video_name, model.name))
     aps = AnchorPointSelector(ckpt.model, args.vpxdec_path, dataset_dir, args.lr_video_name, args.hr_video_name, args.gop, \
                               args.output_width, args.output_height, args.quality_margin, args.num_decoders)
-    # aps.select_anchor_point_set(args.algorithm, args.chunk_idx)
+    aps.select_anchor_point_set(args.algorithm, args.chunk_idx)
     if args.chunk_idx is None:
         aps.aggregate_per_chunk_results(args.algorithm)
