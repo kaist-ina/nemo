@@ -146,7 +146,7 @@ class AnchorPointSelector():
         ###########step 3: select anchor points##########
         start_time = time.time()
         log_path0 = os.path.join(log_dir, 'quality_{}.txt'.format(algorithm_type))
-        log_path1 = os.path.join(log_dir, 'quality_{}_8.txt'.format(algorithm_type))
+        log_path1 = os.path.join(log_dir, 'quality_{}_9.txt'.format(algorithm_type))
         log_path2 = os.path.join(log_dir, 'quality_{}_16.txt'.format(algorithm_type))
         log_path3 = os.path.join(log_dir, 'quality_fast.txt')
         with open(log_path0, 'w') as f0, open(log_path1, 'w') as f1, open(log_path2, 'w') as f2, open(log_path3, 'w') as f3:
@@ -161,7 +161,7 @@ class AnchorPointSelector():
                 quality_log = '{}\t{}\t{:.4f}\t{:.4f}\t{:.4f}\t{:.4f}\n'.format(anchor_point_set.get_num_anchor_points(), len(frames), \
                                          np.average(quality_cache), np.average(quality_dnn), np.average(quality_bilinear), np.average(anchor_point_set.estimated_quality))
                 f0.write(quality_log)
-                if idx < 8:
+                if idx < 9:
                     f1.write(quality_log)
                 if idx < 16:
                     f2.write(quality_log)
@@ -175,11 +175,11 @@ class AnchorPointSelector():
                     anchor_point_set.save_cache_profile()
 
                     #case 2: limit #anchor points to 8
-                    if anchor_point_set.get_num_anchor_points() > 8:
+                    if anchor_point_set.get_num_anchor_points() > 9:
                         anchor_point_set_ = multiple_anchor_point_sets[7]
                     else:
                         anchor_point_set_ = anchor_point_set
-                    anchor_point_set_.set_cache_profile_name('{}_8'.format(algorithm_type))
+                    anchor_point_set_.set_cache_profile_name('{}_9'.format(algorithm_type))
                     anchor_point_set_.save_cache_profile()
 
                     #case 3: limit #anchor points to 16
@@ -247,33 +247,23 @@ class AnchorPointSelector():
         frames = libvpx.load_frame_index(self.dataset_dir, self.lr_video_name, postfix)
         log_path = os.path.join(log_dir, 'quality_{}.txt'.format(algorithm_type))
         with open(log_path, 'w') as f:
-            for i in range(len(frames)):
-                #select anchor point uniformly
-                num_anchor_points = i + 1
-                anchor_point_set = libvpx.AnchorPointSet.create(frames, cache_profile_dir, '{}_{}'.format(algorithm_type, num_anchor_points))
-                for j in range(num_anchor_points):
-                    idx = j * math.floor(len(frames) / num_anchor_points)
-                    anchor_point_set.add_anchor_point(frames[idx])
+            #select anchor point uniformly
+            num_anchor_points = 9
+            anchor_point_set = libvpx.AnchorPointSet.create(frames, cache_profile_dir, '{}_{}'.format(algorithm_type, num_anchor_points))
+            for j in range(num_anchor_points):
+                idx = j * math.floor(len(frames) / num_anchor_points)
+                anchor_point_set.add_anchor_point(frames[idx])
 
-                #measure the quality
-                anchor_point_set.save_cache_profile()
-                quality_cache = libvpx.offline_cache_quality(self.vpxdec_path, self.dataset_dir, self.lr_video_name, self.hr_video_name, \
-                                        self.model.name, anchor_point_set.get_cache_profile_name(), self.output_width, self.output_height, \
-                                        num_skipped_frames, num_decoded_frames, postfix)
-                anchor_point_set.remove_cache_profile()
-                quality_diff = np.asarray(quality_dnn) - np.asarray(quality_cache)
-                quality_log = '{}\t{}\t{:.4f}\t{:.4f}\t{:.4f}\n'.format(anchor_point_set.get_num_anchor_points(), len(frames), \
-                                         np.average(quality_cache), np.average(quality_dnn), np.average(quality_bilinear))
-                f.write(quality_log)
-
-                #terminate
-                if np.average(quality_diff) <= self.quality_margin:
-                    anchor_point_set.set_cache_profile_name(algorithm_type)
-                    anchor_point_set.save_cache_profile()
-                    libvpx.offline_cache_quality(self.vpxdec_path, self.dataset_dir, self.lr_video_name, self.hr_video_name, \
-                                            self.model.name, anchor_point_set.get_cache_profile_name(), self.output_width, self.output_height, \
-                                            num_skipped_frames, num_decoded_frames, postfix)
-                    break
+            #measure the quality
+            anchor_point_set.save_cache_profile()
+            quality_cache = libvpx.offline_cache_quality(self.vpxdec_path, self.dataset_dir, self.lr_video_name, self.hr_video_name, \
+                                    self.model.name, anchor_point_set.get_cache_profile_name(), self.output_width, self.output_height, \
+                                    num_skipped_frames, num_decoded_frames, postfix)
+            # anchor_point_set.remove_cache_profile()
+            quality_diff = np.asarray(quality_dnn) - np.asarray(quality_cache)
+            quality_log = '{}\t{}\t{:.4f}\t{:.4f}\t{:.4f}\n'.format(anchor_point_set.get_num_anchor_points(), len(frames), \
+                                        np.average(quality_cache), np.average(quality_dnn), np.average(quality_bilinear))
+            f.write(quality_log)
 
         end_time = time.time()
         print('{} video chunk: (Step2) {}sec'.format(chunk_idx, end_time - start_time))
@@ -397,15 +387,15 @@ class AnchorPointSelector():
         cache_profile_name = os.path.join('{}.profile'.format(algorithm_type))
 
         #log
-        log_path = os.path.join(log_dir, log_name)
-        with open(log_path, 'w') as f0:
-            #iterate over chunks
-            for chunk_idx in range(start_idx, end_idx + 1):
-                chunk_log_dir = os.path.join(log_dir, 'chunk{:04d}'.format(chunk_idx))
-                chunk_log_path= os.path.join(chunk_log_dir, log_name)
-                with open(chunk_log_path, 'r') as f1:
-                    q_lines = f1.readlines()
-                    f0.write('{}\t{}\n'.format(chunk_idx, q_lines[-1].strip()))
+        # log_path = os.path.join(log_dir, log_name)
+        # with open(log_path, 'w') as f0:
+        #     #iterate over chunks
+        #     for chunk_idx in range(start_idx, end_idx + 1):
+        #         chunk_log_dir = os.path.join(log_dir, 'chunk{:04d}'.format(chunk_idx))
+        #         chunk_log_path= os.path.join(chunk_log_dir, log_name)
+        #         with open(chunk_log_path, 'r') as f1:
+        #             q_lines = f1.readlines()
+        #             f0.write('{}\t{}\n'.format(chunk_idx, q_lines[-1].strip()))
 
         #cache profile
         cache_profile_path = os.path.join(cache_profile_dir, cache_profile_name)
@@ -417,38 +407,39 @@ class AnchorPointSelector():
                     f0.write(f1.read())
 
         #log (bilinear, sr)
-        log_path = os.path.join(self.dataset_dir, 'log', self.lr_video_name, 'quality.txt')
-        with open(log_path, 'w') as f0:
-            #iterate over chunks
-            for chunk_idx in range(start_idx, end_idx + 1):
-                quality = []
-                chunk_log_path = os.path.join(self.dataset_dir, 'log', self.lr_video_name, 'chunk{:04d}'.format(chunk_idx), 'quality.txt')
-                with open(chunk_log_path, 'r') as f1:
-                    lines = f1.readlines()
-                    for line in lines:
-                        line = line.strip()
-                        quality.append(float(line.split('\t')[1]))
-                    f0.write('{}\t{:.4f}\n'.format(chunk_idx, np.average(quality)))
+        # log_path = os.path.join(self.dataset_dir, 'log', self.lr_video_name, 'quality.txt')
+        # with open(log_path, 'w') as f0:
+        #     #iterate over chunks
+        #     for chunk_idx in range(start_idx, end_idx + 1):
+        #         quality = []
+        #         chunk_log_path = os.path.join(self.dataset_dir, 'log', self.lr_video_name, 'chunk{:04d}'.format(chunk_idx), 'quality.txt')
+        #         with open(chunk_log_path, 'r') as f1:
+        #             lines = f1.readlines()
+        #             for line in lines:
+        #                 line = line.strip()
+        #                 quality.append(float(line.split('\t')[1]))
+        #             f0.write('{}\t{:.4f}\n'.format(chunk_idx, np.average(quality)))
 
-        log_path = os.path.join(self.dataset_dir, 'log', self.lr_video_name, self.model.name, 'quality.txt')
-        with open(log_path, 'w') as f0:
-            #iterate over chunks
-            for chunk_idx in range(start_idx, end_idx + 1):
-                quality = []
-                chunk_log_path = os.path.join(self.dataset_dir, 'log', self.lr_video_name, self.model.name, 'chunk{:04d}'.format(chunk_idx), 'quality.txt')
-                with open(chunk_log_path, 'r') as f1:
-                    lines = f1.readlines()
-                    for line in lines:
-                        line = line.strip()
-                        quality.append(float(line.split('\t')[1]))
-                    f0.write('{}\t{:.4f}\n'.format(chunk_idx, np.average(quality)))
+        # log_path = os.path.join(self.dataset_dir, 'log', self.lr_video_name, self.model.name, 'quality.txt')
+        # with open(log_path, 'w') as f0:
+        #     #iterate over chunks
+        #     for chunk_idx in range(start_idx, end_idx + 1):
+        #         quality = []
+        #         chunk_log_path = os.path.join(self.dataset_dir, 'log', self.lr_video_name, self.model.name, 'chunk{:04d}'.format(chunk_idx), 'quality.txt')
+        #         with open(chunk_log_path, 'r') as f1:
+        #             lines = f1.readlines()
+        #             for line in lines:
+        #                 line = line.strip()
+        #                 quality.append(float(line.split('\t')[1]))
+        #             f0.write('{}\t{:.4f}\n'.format(chunk_idx, np.average(quality)))
 
     def aggregate_per_chunk_results(self, algorithm_type):
         if algorithm_type == 'nemo':
             self._aggregate_per_chunk_results('{}_{}'.format(algorithm_type, self.quality_margin))
-            self._aggregate_per_chunk_results('{}_{}_8'.format(algorithm_type, self.quality_margin))
+            self._aggregate_per_chunk_results('{}_{}_9'.format(algorithm_type, self.quality_margin))
             self._aggregate_per_chunk_results('{}_{}_16'.format(algorithm_type, self.quality_margin))
             self._aggregate_per_chunk_results('fast')
         else:
-            self._aggregate_per_chunk_results('{}_{}'.format(algorithm_type, self.quality_margin))
+            self._aggregate_per_chunk_results('{}_{}_9'.format(algorithm_type, self.quality_margin))
+            # self._aggregate_per_chunk_results('{}_{}'.format(algorithm_type, self.quality_margin))
 

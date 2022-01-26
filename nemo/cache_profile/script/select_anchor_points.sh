@@ -33,65 +33,18 @@ function _set_bitrate(){
         bitrate=1024
     elif [ "$1" == 480 ];then
         bitrate=1600
+    elif [ "$1" == 720 ];then
+        bitrate=2640
     fi
 }
 
 function _set_num_blocks(){
-    if [ "$1" == 240 ];then
-        if [ "$2" == "low" ];then
-            num_blocks=4
-        elif [ "$2" == "medium" ];then
-            num_blocks=8
-        elif [ "$2" == "high" ];then
-            num_blocks=8
-        fi
-    elif [ "$1" == 360 ];then
-        if [ "$2" == "low" ];then
-            num_blocks=4
-        elif [ "$2" == "medium" ];then
-            num_blocks=4
-        elif [ "$2" == "high" ];then
-            num_blocks=4
-        fi
-    elif [ "$1" == 480 ];then
-        if [ "$2" == "low" ];then
-            num_blocks=4
-        elif [ "$2" == "medium" ];then
-            num_blocks=4
-        elif [ "$2" == "high" ];then
-            num_blocks=4
-        fi
-    fi
+    num_blocks=8
 }
 
 function _set_num_filters(){
-    if [ "$1" == 240 ];then
-        if [ "$2" == "low" ];then
-            num_filters=9
-        elif [ "$2" == "medium" ];then
-            num_filters=21
-        elif [ "$2" == "high" ];then
-            num_filters=32
-        fi
-    elif [ "$1" == 360 ];then
-        if [ "$2" == "low" ];then
-            num_filters=8
-        elif [ "$2" == "medium" ];then
-            num_filters=18
-        elif [ "$2" == "high" ];then
-            num_filters=29
-        fi
-    elif [ "$1" == 480 ];then
-        if [ "$2" == "low" ];then
-            num_filters=4
-        elif [ "$2" == "medium" ];then
-            num_filters=9
-        elif [ "$2" == "high" ];then
-            num_filters=18
-        fi
-    fi
+    num_filters=32
 }
-
 
 function _set_output_size(){
     if [ "$1" == 1080 ];then
