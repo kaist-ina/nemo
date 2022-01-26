@@ -23,7 +23,8 @@ if __name__ == '__main__':
     # training & testing
     parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--patch_size', type=int, default=64)
-    parser.add_argument('--num_epochs', type=int, default=300)
+    # parser.add_argument('--num_epochs', type=int, default=300)
+    parser.add_argument('--num_epochs', type=int, default=1)
     parser.add_argument('--num_steps_per_epoch', type=int, default=1000)
     parser.add_argument('--load_on_memory', action='store_true')
     parser.add_argument('--num_samples', type=int, default=10)
