@@ -54,7 +54,7 @@ def snpe_tensorflow_to_dlc(pb_path, dlc_path, input_name, output_name, input_sha
             --input_dim {} {} \
             --out_node {} \
             -o {} \
-            --show_unconsumed_nodes'.format(SNPE_ROOT, \
+            --allow_unconsumed_nodes'.format(SNPE_ROOT, \
                             pb_path, \
                             input_name, \
                             '{},{},{},{}'.format(input_shape[0], input_shape[1], input_shape[2], input_shape[3]), \

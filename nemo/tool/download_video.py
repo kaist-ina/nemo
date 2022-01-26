@@ -5,7 +5,7 @@ from nemo.tool.video import get_video_url
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--video_dir', type=str, required=True)
-    parser.add_argument('--youtubedl_path', type=str, default='/usr/local/bin/youtube-dl')
+    parser.add_argument('--youtubedl_path', type=str, default='/usr/local/bin/yt-dlp')
     parser.add_argument('--content', type=str, required=True)
 
     args = parser.parse_args()
