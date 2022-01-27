@@ -17,7 +17,6 @@ if __name__ == '__main__':
     dest = os.path.join(args.jni_dir, 'libvpx')
     if not os.path.exists(dest):
         cmd = 'ln -s {} {}'.format(src, dest)
-        os.system(cmd)
 
     # snpe link
     src = args.snpe_dir
@@ -28,7 +27,8 @@ if __name__ == '__main__':
 
     # configure
     cmd = 'cd {} && make distclean'.format(args.libvpx_dir)
-    cmd = 'cd {} && ./configure {}'.format(args.jni_dir, args.ndk_dir)
+    os.system(cmd)
+    cmd = 'cd {} && ./nemo_client_arm64.sh'.format(args.jni_dir)
     os.system(cmd)
 
     # build

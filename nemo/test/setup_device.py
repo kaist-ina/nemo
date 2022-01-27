@@ -33,7 +33,7 @@ if __name__ == '__main__':
     #codec
     parser.add_argument('--output_width', type=int, default=1920)
     parser.add_argument('--output_height', type=int, default=1080)
-    parser.add_argument('--limit', type=int, default=30)
+    parser.add_argument('--limit', type=int, default=1200)
 
     args = parser.parse_args()
 
@@ -93,6 +93,25 @@ if __name__ == '__main__':
     os.makedirs(script_dir, exist_ok=True)
     input_height = video_profile['height']
 
+    device_script_dir = os.path.join(device_root_dir, 'script', args.video_name, model.name, args.algorithm)
+    adb_mkdir(device_script_dir, args.device_id)
+
+    args.limit = 1200
+    limit = '--limit={}'.format(args.limit) if args.limit is not None else ''
+    cmds = ['#!/system/bin/sh',
+            'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}'.format(device_lib_dir),
+            'cd {}'.format(device_root_dir),
+            '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 {}  --dataset-dir={} --input-video-name={} --decode-mode=decode_cache --dnn-mode=no_dnn --dnn-runtime=gpu_float16 --cache-mode=profile_cache --dnn-name={} --dnn-scale={} --cache-profile-name={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), limit, device_root_dir, args.video_name, model.name, scale, args.algorithm),
+            'exit']
+    cmd_script_path = os.path.join(script_dir, 'measure_nemo_latency.sh')
+    with open(cmd_script_path, 'w') as cmd_script:
+        for ln in cmds:
+            cmd_script.write(ln + '\n')
+    adb_push(device_script_dir, cmd_script_path, args.device_id)
+
+    adb_push(device_script_dir, cmd_script_path, args.device_id)
+    os.system('adb -s {} shell "chmod +x {}"'.format(args.device_id, os.path.join(device_script_dir, '*.sh')))
+
     #case 1: No SR
     limit = '--limit={}'.format(args.limit) if args.limit is not None else ''
     device_script_dir = os.path.join(device_root_dir, 'script', args.video_name)
@@ -110,35 +129,35 @@ if __name__ == '__main__':
     os.system('adb -s {} shell "chmod +x {}"'.format(args.device_id, os.path.join(device_script_dir, '*.sh')))
 
     #case 2: Per-frame SR
-    limit = '--limit={}'.format(args.limit) if args.limit is not None else ''
-    device_script_dir = os.path.join(device_root_dir, 'script', args.video_name, model.name)
-    adb_mkdir(device_script_dir, args.device_id)
-    cmds = ['#!/system/bin/sh',
-            'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}'.format(device_lib_dir),
-            'cd {}'.format(device_root_dir),
-            '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 {} --dataset-dir={} --input-video-name={}  --decode-mode=decode_sr --dnn-mode=online_dnn --dnn-runtime=gpu_float16 --dnn-name={} --dnn-scale={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), limit, device_root_dir, args.video_name, model.name, scale),
-            'exit']
-    cmd_script_path = os.path.join(script_dir, 'measure_per_frame_sr_latency.sh')
-    with open(cmd_script_path, 'w') as cmd_script:
-        for ln in cmds:
-            cmd_script.write(ln + '\n')
-    adb_push(device_script_dir, cmd_script_path, args.device_id)
-    os.system('adb -s {} shell "chmod +x {}"'.format(args.device_id, os.path.join(device_script_dir, '*.sh')))
+    # limit = '--limit={}'.format(args.limit) if args.limit is not None else ''
+    # device_script_dir = os.path.join(device_root_dir, 'script', args.video_name, model.name)
+    # adb_mkdir(device_script_dir, args.device_id)
+    # cmds = ['#!/system/bin/sh',
+    #         'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}'.format(device_lib_dir),
+    #         'cd {}'.format(device_root_dir),
+    #         '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 {} --dataset-dir={} --input-video-name={}  --decode-mode=decode_sr --dnn-mode=online_dnn --dnn-runtime=gpu_float16 --dnn-name={} --dnn-scale={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), limit, device_root_dir, args.video_name, model.name, scale),
+    #         'exit']
+    # cmd_script_path = os.path.join(script_dir, 'measure_per_frame_sr_latency.sh')
+    # with open(cmd_script_path, 'w') as cmd_script:
+    #     for ln in cmds:
+    #         cmd_script.write(ln + '\n')
+    # adb_push(device_script_dir, cmd_script_path, args.device_id)
+    # os.system('adb -s {} shell "chmod +x {}"'.format(args.device_id, os.path.join(device_script_dir, '*.sh')))
 
     #case 3: NEMO
-    device_script_dir = os.path.join(device_root_dir, 'script', args.video_name, model.name, args.algorithm)
-    adb_mkdir(device_script_dir, args.device_id)
+    # device_script_dir = os.path.join(device_root_dir, 'script', args.video_name, model.name, args.algorithm)
+    # adb_mkdir(device_script_dir, args.device_id)
 
-    cmds = ['#!/system/bin/sh',
-            'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}'.format(device_lib_dir),
-            'cd {}'.format(device_root_dir),
-            '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 --dataset-dir={} --input-video-name={} --decode-mode=decode_cache --dnn-mode=online_dnn --dnn-runtime=gpu_float16 --cache-mode=profile_cache --dnn-name={} --dnn-scale={} --cache-profile-name={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), device_root_dir, args.video_name, model.name, scale, args.algorithm),
-            'exit']
-    cmd_script_path = os.path.join(script_dir, 'measure_nemo_latency.sh')
-    with open(cmd_script_path, 'w') as cmd_script:
-        for ln in cmds:
-            cmd_script.write(ln + '\n')
-    adb_push(device_script_dir, cmd_script_path, args.device_id)
+    # cmds = ['#!/system/bin/sh',
+    #         'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}'.format(device_lib_dir),
+    #         'cd {}'.format(device_root_dir),
+    #         '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 --dataset-dir={} --input-video-name={} --decode-mode=decode_cache --dnn-mode=online_dnn --dnn-runtime=gpu_float16 --cache-mode=profile_cache --dnn-name={} --dnn-scale={} --cache-profile-name={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), device_root_dir, args.video_name, model.name, scale, args.algorithm),
+    #         'exit']
+    # cmd_script_path = os.path.join(script_dir, 'measure_nemo_latency.sh')
+    # with open(cmd_script_path, 'w') as cmd_script:
+    #     for ln in cmds:
+    #         cmd_script.write(ln + '\n')
+    # adb_push(device_script_dir, cmd_script_path, args.device_id)
 
-    adb_push(device_script_dir, cmd_script_path, args.device_id)
-    os.system('adb -s {} shell "chmod +x {}"'.format(args.device_id, os.path.join(device_script_dir, '*.sh')))
+    # adb_push(device_script_dir, cmd_script_path, args.device_id)
+    # os.system('adb -s {} shell "chmod +x {}"'.format(args.device_id, os.path.join(device_script_dir, '*.sh')))
