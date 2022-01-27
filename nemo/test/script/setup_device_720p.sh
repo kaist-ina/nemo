@@ -35,6 +35,8 @@ function _set_bitrate(){
         bitrate=1600
     elif [ "$1" == 720 ];then
         bitrate=2640
+    elif [ "$1" == 2160 ];then
+        bitrate=12000
     fi
 }
 
@@ -48,13 +50,11 @@ function _set_num_filters(){
 
 [[ ($# -ge 1)  ]] || { echo "[ERROR] Invalid number of arguments. See -h for help."; exit 1;  }
 
-while getopts ":c:q:r:t:a:d:h" opt; do
+while getopts ":c:a:d:h" opt; do
     case $opt in
         h) _usage; exit 0;;
         a) algorithm="$OPTARG";;
         c) content=("$OPTARG");;
-        q) quality=("$OPTARG");;
-        r) resolution=("$OPTARG");;
         d) device_id="$OPTARG";;
         \?) exit 1;
     esac
@@ -75,18 +75,9 @@ if [ -z "${device_id+x}" ]; then
     exit 1;
 fi
 
-if [ -z "${quality+x}" ]; then
-    echo "[ERROR] quality is not set"
-    exit 1;
-fi
-
-if [ -z "${resolution+x}" ]; then
-    echo "[ERROR] resolution is not set"
-    exit 1;
-fi
-
+resolution=720
 _set_conda
 _set_bitrate ${resolution}
-_set_num_blocks ${resolution} ${quality}
-_set_num_filters ${resolution} ${quality}
-CUDA_VISIBLE_DEVICES=${gpu_index} python ${NEMO_CODE_ROOT}/nemo/test/setup_device.py --data_dir ${NEMO_DATA_ROOT} --content ${content} --video_name ${resolution}p_${bitrate}kbps_s0_d300.webm --lib_dir ${NEMO_CODE_ROOT}/nemo/test/libs/arm64-v8a --num_blocks ${num_blocks} --num_filters ${num_filters} --algorithm=${algorithm} --device_id=${device_id} --output_width=3840 --output_height=2160
+_set_num_blocks ${resolution}
+_set_num_filters ${resolution}
+CUDA_VISIBLE_DEVICES=${gpu_index} python ${NEMO_CODE_ROOT}/nemo/test/setup_device_720p.py --data_dir ${NEMO_DATA_ROOT} --content ${content} --video_name ${resolution}p_${bitrate}kbps_s0_d300.webm --lib_dir ${NEMO_CODE_ROOT}/nemo/test/libs/arm64-v8a --num_blocks ${num_blocks} --num_filters ${num_filters} --algorithm=${algorithm} --device_id=${device_id} --output_width=3840 --output_height=2160
