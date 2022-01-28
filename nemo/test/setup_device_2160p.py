@@ -78,6 +78,11 @@ if __name__ == '__main__':
             'cd {}'.format(device_root_dir),
             '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 {} --dataset-dir={} --input-video-name={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), limit, device_root_dir, args.video_name),
             'exit']
+    # cmds = ['#!/system/bin/sh',
+    #         'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}'.format(device_lib_dir),
+    #         'cd {}'.format(device_root_dir),
+    #         '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 {} --dataset-dir={} --input-video-name={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), 4, limit, device_root_dir, args.video_name),
+    #         'exit']
     cmd_script_path = os.path.join(script_dir, 'measure_decode_latency.sh')
     with open(cmd_script_path, 'w') as cmd_script:
         for ln in cmds:

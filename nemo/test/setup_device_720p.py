@@ -97,11 +97,17 @@ if __name__ == '__main__':
     adb_mkdir(device_script_dir, args.device_id)
 
     limit = '--limit={}'.format(args.limit) if args.limit is not None else ''
+    # cmds = ['#!/system/bin/sh',
+    #         'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}'.format(device_lib_dir),
+    #         'cd {}'.format(device_root_dir),
+    #         '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 {}  --dataset-dir={} --input-video-name={} --decode-mode=decode_cache --dnn-mode=no_dnn --dnn-runtime=gpu_float16 --cache-mode=profile_cache --dnn-name={} --dnn-scale={} --cache-profile-name={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), limit, device_root_dir, args.video_name, model.name, scale, args.algorithm),
+    #         'exit']
     cmds = ['#!/system/bin/sh',
             'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{}'.format(device_lib_dir),
             'cd {}'.format(device_root_dir),
-            '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 {}  --dataset-dir={} --input-video-name={} --decode-mode=decode_cache --dnn-mode=no_dnn --dnn-runtime=gpu_float16 --cache-mode=profile_cache --dnn-name={} --dnn-scale={} --cache-profile-name={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), limit, device_root_dir, args.video_name, model.name, scale, args.algorithm),
+            '{} --codec=vp9  --noblit --threads={} --frame-buffers=50 {}  --dataset-dir={} --input-video-name={} --decode-mode=decode_cache --dnn-mode=no_dnn --dnn-runtime=gpu_float16 --cache-mode=key_frame_cache --dnn-name={} --dnn-scale={} --save-latency --save-metadata'.format(os.path.join(device_bin_dir, 'vpxdec_nemo_ver2'), get_num_threads(input_height), limit, device_root_dir, args.video_name, model.name, scale),
             'exit']
+
     cmd_script_path = os.path.join(script_dir, 'measure_nemo_latency.sh')
     with open(cmd_script_path, 'w') as cmd_script:
         for ln in cmds:
