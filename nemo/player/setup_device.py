@@ -3,9 +3,9 @@ import sys
 
 from nemo.tool.adb import *
 #from nemo.tool.snpe import *
-from nemo.tool.video import get_video_profile
-from nemo.dnn.utility import build_model
-from nemo.tool.libvpx  import get_num_threads
+# from nemo.tool.video import get_video_profile
+# from nemo.dnn.utility import build_model
+# from nemo.tool.libvpx  import get_num_threads
 
 
 if __name__ == '__main__':
