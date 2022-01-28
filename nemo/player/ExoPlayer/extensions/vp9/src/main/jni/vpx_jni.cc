@@ -658,13 +658,15 @@ DECODER_FUNC(jlong, vpxInit, jboolean disableLoopFilter,
             LOGE("fail2");
             LOGE("nemo_dnn: %s", dnn_file);
         }
+        LOGE("done1");
     }
 
-    if (nemo_cfg->decode_mode == DECODE_CACHE &&  nemo_cfg->cache_mode == PROFILE_CACHE) {
+    if (nemo_cfg->decode_mode == DECODE_CACHE) {
         if (vpx_load_nemo_cache_profile(context->decoder, scale, NULL)) {
             LOGE("fail3");
             LOGE("nemo_cache profile: %s", cache_profile_file);
         }
+        LOGE("done2");
     }
 
     remove_nemo_cfg(nemo_cfg);

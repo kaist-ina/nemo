@@ -143,9 +143,11 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private MediaSource createLocalMediaSource(String contentPath, String videoName) {
-        File file = new File(contentPath + File.separator + "video" + File.separator + videoName);
+        File file = new File("//android_asset/" + videoName);
+        Log.e("loopback", file.toString());
         Uri uri = Uri.fromFile(file);
-
+        Log.e("loopback", uri.toString());
+//        Uri uri = new Uri("file:///android_asset/" + videoName);
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "ExoPlayer"));
         MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
         return videoSource;
