@@ -100,6 +100,10 @@ public class PlayerActivity extends AppCompatActivity {
             videoName = "360p_1024kbps_s0_d300.webm";
         } else if (resolution.equals("480")) {
             videoName = "480p_1600kbps_s0_d300.webm";
+        } else if (resolution.equals("720")) {
+            videoName = "720p_2640kbps_s0_d300.webm";
+        } else if (resolution.equals("2160")) {
+            videoName = "2160p_12000kbps_s0_d300.webm";
         }
 
         PlayerView playerView = findViewById(R.id.player);
